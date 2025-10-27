@@ -30,36 +30,45 @@ body {
   background: transparent;
 }
 
+/* --- Centered Header --- */
 header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 32px;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 48px;
 }
 
-h1 {
-  font-size: 30px;
-  margin: 0 0 8px;
+header h1 {
+  font-size: 36px;
+  margin: 0;
   color: #90E0EF;
-  text-shadow: 0 0 12px rgba(0, 180, 216, 0.3);
+  text-shadow: 0 0 14px rgba(0, 180, 216, 0.35);
+  letter-spacing: 0.5px;
 }
 
-h2 {
-  color: #00B4D8;
-  margin-bottom: 10px;
-  text-shadow: 0 0 8px rgba(0, 180, 216, 0.25);
+header small {
+  margin-top: 10px;
+  font-size: 15px;
+  color: #A3E1F9;
+  opacity: 0.9;
 }
 
-a {
+/* Center the GitHub link under header */
+header a {
+  margin-top: 14px;
   color: #00B4D8;
   text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  font-weight: 600;
+  transition: 0.3s ease;
 }
-a:hover {
+header a:hover {
   color: #90E0EF;
-  text-shadow: 0 0 12px #90E0EF;
+  text-shadow: 0 0 10px #90E0EF;
 }
 
+/* --- Card styling --- */
 .card {
   background: rgba(12, 20, 30, 0.6);
   border: 1px solid rgba(0, 180, 216, 0.3);
@@ -75,12 +84,29 @@ a:hover {
   box-shadow: 0 0 24px rgba(0, 180, 216, 0.3);
 }
 
+h2 {
+  color: #00B4D8;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px rgba(0, 180, 216, 0.25);
+}
+
+/* --- Links --- */
+a {
+  color: #00B4D8;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+a:hover {
+  color: #90E0EF;
+  text-shadow: 0 0 12px #90E0EF;
+}
+
 small {
   opacity: 0.8;
   color: #A3E1F9;
 }
 
-/* Fade-in animation */
+/* --- Fade-in animation --- */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -92,7 +118,7 @@ small {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Theme toggle button */
+/* --- Theme toggle button --- */
 #theme-toggle {
   background: none;
   border: 1px solid rgba(0, 180, 216, 0.4);
@@ -108,7 +134,7 @@ small {
   box-shadow: 0 0 10px #00B4D8;
 }
 
-/* Light theme */
+/* --- Light Theme --- */
 body.light {
   background: linear-gradient(120deg, #EAF8FF, #D7F0FF);
   color: #1a1a1a;
@@ -122,5 +148,9 @@ body.light h1,
 body.light h2, 
 body.light a {
   color: #0077B6;
+}
+body.light header small {
+  color: #0077B6;
+  opacity: 0.8;
 }
 
