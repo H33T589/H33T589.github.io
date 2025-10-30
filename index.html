@@ -7,25 +7,35 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="hero">
-    <h1>Heet — CS @ SFU</h1>
-    <small>Rust-curious • I code, love quantum mechanics, and contribute to open source</small>
-  </div>
+  <!-- Scroll-synced glow trail -->
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
 
-  <div class="wrap">
-    <header>
-      <nav>
+  <!-- Hero with parallax depth -->
+  <section class="hero" id="top">
+    <div class="hero-bg">
+      <div class="layer l1"></div>
+      <div class="layer l2"></div>
+      <div class="layer l3"></div>
+    </div>
+    <div class="hero-inner">
+      <h1>Heet — CS @ SFU</h1>
+      <small>Rust-curious • I code, love quantum mechanics, and contribute to open source</small>
+      <nav class="hero-nav">
         <a href="https://github.com/H33T589" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/heet--patel/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="#contact">Contact</a>
       </nav>
-    </header>
+    </div>
+  </section>
 
-    <section class="card fade-in">
+  <main class="wrap">
+    <section class="card fade-in tilt">
       <h2>Featured Project</h2>
       <p><strong>spatial-audio-sandbox-rs</strong> — a Rust demo that moves a tone in 3D (x / y / z). Notes on design & trade-offs included.</p>
       <p><a href="https://github.com/H33T589/spatial-audio-sandbox-rs" target="_blank" rel="noopener noreferrer">View Repository →</a></p>
     </section>
 
-    <section class="card fade-in">
+    <section class="card fade-in tilt">
       <h2>Recent Contributions</h2>
       <ul>
         <li><a href="https://github.com/qiboteam/qibo" target="_blank" rel="noopener noreferrer">Fast Walsh–Hadamard Transform PR to Qibo</a> — added an efficient Pauli-Liouville conversion.</li>
@@ -34,7 +44,7 @@
       </ul>
     </section>
 
-    <section class="card fade-in">
+    <section class="card fade-in tilt">
       <h2>Other Work</h2>
       <ul>
         <li><a href="https://github.com/H33T589/school-projects-CPP" target="_blank" rel="noopener noreferrer">Algos made in class (C++/Python)</a> — C++ patterns & small utilities.</li>
@@ -42,21 +52,23 @@
       </ul>
     </section>
 
-    <section class="card fade-in contact">
+    <section id="contact" class="card fade-in tilt contact">
       <h2>Contact</h2>
       <p>Email: <a href="mailto:hitkumarp589@gmail.com">hitkumarp589@gmail.com</a></p>
     </section>
-  </div>
+  </main>
 
   <footer>
     <div class="social">
-      <a href="https://github.com/H33T589" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/heet--patel/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/H33T589" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+      <a href="https://www.linkedin.com/in/heet--patel/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
     </div>
     <p>© 2025 Heet • Built with passion & caffeine</p>
+    <a class="to-top" href="#top" aria-label="Back to top">↑</a>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 
