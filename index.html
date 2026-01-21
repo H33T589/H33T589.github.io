@@ -3,38 +3,805 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heet • Rust Developer & Quantum Computing Enthusiast</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Heet • Rust & Quantum Systems</title>
+    <style>
+        /* ============================================
+           RESET & VARIABLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --obsidian-dark: #050505;
+            --obsidian-mid: #0f1115;
+            --obsidian-light: #1a1d24;
+            --rust-orange: #dea584; 
+            --rust-dark: #863505;
+            --blue-primary: #3b82f6;
+            --blue-cyan: #06b6d4;
+            --blue-accent: #22d3ee;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --glow-color: rgba(34, 211, 238, 0.15);
+            --font-mono: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--obsidian-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--obsidian-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--obsidian-light);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--blue-primary);
+        }
+
+        /* ============================================
+           BACKGROUND & LOADING
+           ============================================ */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; 
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--obsidian-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-text {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            color: var(--blue-accent);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.1em;
+        }
+
+        .loader-bar-container {
+            width: 200px;
+            height: 2px;
+            background: var(--obsidian-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--blue-accent);
+            transition: width 0.2s linear;
+            box-shadow: 0 0 10px var(--blue-accent);
+        }
+
+        .loader-status {
+            margin-top: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background: rgba(5, 5, 5, 0.95);
+            border-bottom-color: rgba(34, 211, 238, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Glitch Effect on Hover */
+        .nav-logo:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: var(--blue-accent);
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 0.25rem 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--blue-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0 2rem;
+            overflow: hidden;
+        }
+
+        /* Decorative Grid Background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 99px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--blue-accent);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease forwards 0.5s;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.7s;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--text-primary) 30%, var(--blue-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.9s;
+        }
+
+        .typewriter-container {
+            font-family: var(--font-mono);
+            color: var(--blue-primary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            min-height: 1.6em;
+            display: flex;
+            align-items: center;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: var(--blue-accent);
+            margin-left: 5px;
+            animation: blink 1s step-end infinite;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1.1s;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--blue-primary);
+            color: white;
+            border: 1px solid var(--blue-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--blue-dark);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--obsidian-light);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ============================================
+           SECTIONS COMMON
+           ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: left;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            color: var(--blue-accent);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Scroll Reveal Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           SKILLS (Tech Stack)
+           ============================================ */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--obsidian-mid);
+            border: 1px solid var(--obsidian-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            border-color: var(--blue-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .skill-category {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .skill-item:hover {
+            border-color: var(--blue-accent);
+            color: var(--blue-accent);
+        }
+
+        /* ============================================
+           PROJECTS (Holographic Cards)
+           ============================================ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--obsidian-mid);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--obsidian-light);
+            transition: transform 0.1s; 
+            group: 'card';
+        }
+
+        /* Gradient Border Effect */
+        .project-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 12px;
+            padding: 1px; 
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(34, 211, 238, 0.6),
+                transparent 40%
+            );
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-content {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-pill {
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--blue-accent);
+            background: rgba(34, 211, 238, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: gap 0.2s;
+        }
+
+        .project-link:hover {
+            gap: 0.8rem;
+            color: var(--blue-accent);
+        }
+
+        /* ============================================
+           CONTACT (Terminal Style)
+           ============================================ */
+        .contact-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--obsidian-mid);
+            border-radius: 12px;
+            border: 1px solid var(--obsidian-light);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            background: var(--obsidian-light);
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .terminal-title {
+            margin-left: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .terminal-body {
+            padding: 2rem;
+            font-family: var(--font-mono);
+            min-height: 300px;
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .output-line {
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .output-line.command {
+            color: var(--blue-accent);
+        }
+        .output-line.success {
+            color: var(--text-primary);
+        }
+
+        .terminal-input-area {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .prompt {
+            color: var(--blue-primary);
+            font-weight: bold;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            flex: 1;
+            outline: none;
+        }
+
+        .send-btn {
+            background: var(--obsidian-dark);
+            border: 1px solid var(--obsidian-light);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .send-btn:hover {
+            border-color: var(--blue-primary);
+            color: var(--blue-primary);
+        }
+
+        /* ============================================
+           FOOTER (Updated with SVGs)
+           ============================================ */
+        .footer {
+            border-top: 1px solid var(--obsidian-light);
+            padding: 3rem 0;
+            text-align: center;
+            background: var(--obsidian-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor; 
+            transition: transform 0.3s ease, fill 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--blue-accent);
+            background: rgba(34, 211, 238, 0.05);
+            border-color: rgba(34, 211, 238, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .social-link:hover svg {
+            transform: scale(1.1);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--obsidian-mid);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                z-index: 1000;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .container {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Particle Canvas Background -->
+
+    <!-- Particle Canvas -->
     <canvas id="particles"></canvas>
 
-    <!-- Loading Screen -->
+    <!-- Loader -->
     <div class="loader" id="loader">
-        <div class="loader-content">
-            <div class="loader-text">Heet</div>
-            <div class="loader-bar"></div>
+        <div class="loader-text">&gt; INIT_SYSTEM</div>
+        <div class="loader-bar-container">
+            <div class="loader-bar" id="loaderBar"></div>
         </div>
+        <div class="loader-status" id="loaderStatus">Loading modules...</div>
     </div>
 
     <!-- Navigation -->
-    <nav class="nav">
+    <nav class="nav" id="nav">
         <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">Heet</span>
-                <span class="logo-dot">.</span>
-            </div>
-            <div class="nav-links">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
+            <a href="#hero" class="nav-logo">H33T<span style="color:var(--blue-accent)">.</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">./About</a>
+                <a href="#skills" class="nav-link">./Skills</a>
+                <a href="#projects" class="nav-link">./Projects</a>
+                <a href="#contact" class="nav-link">./Contact</a>
             </div>
             <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
             </div>
         </div>
     </nav>
@@ -42,229 +809,175 @@
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-content">
-            <p class="hero-subtitle fade-in">
-                <span class="typing-text" id="typingText"></span>
-                <span class="cursor">|</span>
-            </p>
-            <h1 class="hero-title fade-in">Hi, I'm <span class="gradient-text">Heet</span></h1>
-            <p class="hero-description fade-in">Building systems at the intersection of systems programming and quantum mechanics. Passionate about creating efficient, secure, and innovative solutions.</p>
-            <div class="hero-buttons fade-in">
-                <a href="#projects" class="btn btn-primary btn-glow">View Projects</a>
-                <a href="#contact" class="btn btn-secondary btn-glow">Get in Touch</a>
+            <span class="hero-tag">Rust Developer & Quantum Enthusiast</span>
+            <div class="typewriter-container">
+                <span id="typingText"></span><span class="cursor">_</span>
             </div>
-        </div>
-        <div class="hero-visual">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-            <div class="orb orb-4"></div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">About Me</h2>
-            <div class="about-grid">
-                <div class="about-card scroll-reveal">
-                    <div class="card-icon">🦀</div>
-                    <h3>Rust & Systems Programming</h3>
-                    <p>Specialized in building high-performance, memory-safe applications using Rust. Experienced with async/await, systems architecture, and performance optimization.</p>
-                </div>
-                <div class="about-card scroll-reveal">
-                    <div class="card-icon">⚛️</div>
-                    <h3>Quantum Mechanics</h3>
-                    <p>Fascinated by quantum computing principles, quantum algorithms, and the future of quantum-classical hybrid computing systems.</p>
-                </div>
-                <div class="about-card scroll-reveal">
-                    <div class="card-icon">🚀</div>
-                    <h3>Full-Stack Development</h3>
-                    <p>Proficient in building complete applications from frontend to backend, with a focus on modern web technologies and best practices.</p>
-                </div>
+            <h1 class="hero-title">
+                Building systems at the<br>
+                <span class="gradient-text">intersection of logic.</span>
+            </h1>
+            <p class="hero-description">
+                Specialized in high-performance computing, memory safety, and quantum algorithms. Turning complex problems into efficient code.
+            </p>
+            <div class="btn-container">
+                <a href="#projects" class="btn btn-primary magnetic-btn">View Projects</a>
+                <a href="#contact" class="btn btn-secondary magnetic-btn">Init Contact</a>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section class="section section-alt" id="skills">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-category scroll-reveal">
-                    <h3>Programming Languages</h3>
-                    <div class="skill-tags">
-                        <span class="tag tag-glow">Rust</span>
-                        <span class="tag tag-glow">Python</span>
-                        <span class="tag tag-glow">TypeScript</span>
-                        <span class="tag tag-glow">JavaScript</span>
-                        <span class="tag tag-glow">C++</span>
-                    </div>
+    <section class="container" id="skills">
+        <div class="section-header reveal">
+            <span class="section-label">01. CAPABILITIES</span>
+            <h2 class="section-title">Tech Stack</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card reveal">
+                <div class="skill-category">
+                    <span>🦀</span> Languages
                 </div>
-                <div class="skill-category scroll-reveal">
-                    <h3>Web Technologies</h3>
-                    <div class="skill-tags">
-                        <span class="tag tag-glow">Next.js</span>
-                        <span class="tag tag-glow">React</span>
-                        <span class="tag tag-glow">Node.js</span>
-                        <span class="tag tag-glow">HTML/CSS</span>
-                        <span class="tag tag-glow">Tailwind</span>
-                    </div>
+                <div class="skill-list">
+                    <span class="skill-item">Rust</span>
+                    <span class="skill-item">Python</span>
+                    <span class="skill-item">TypeScript</span>
+                    <span class="skill-item">C++</span>
+                    <span class="skill-item">Solidity</span>
                 </div>
-                <div class="skill-category scroll-reveal">
-                    <h3>Tools & Platforms</h3>
-                    <div class="skill-tags">
-                        <span class="tag tag-glow">Git</span>
-                        <span class="tag tag-glow">Docker</span>
-                        <span class="tag tag-glow">Linux</span>
-                        <span class="tag tag-glow">VS Code</span>
-                        <span class="tag tag-glow">Qiskit</span>
-                    </div>
+            </div>
+            <div class="skill-card reveal">
+                <div class="skill-category">
+                    <span>⚛️</span> Quantum & Systems
+                </div>
+                <div class="skill-list">
+                    <span class="skill-item">Qiskit</span>
+                    <span class="skill-item">Linux</span>
+                    <span class="skill-item">Docker</span>
+                    <span class="skill-item">Shell Scripting</span>
+                </div>
+            </div>
+            <div class="skill-card reveal">
+                <div class="skill-category">
+                    <span>🚀</span> Web & Tools
+                </div>
+                <div class="skill-list">
+                    <span class="skill-item">Next.js</span>
+                    <span class="skill-item">React</span>
+                    <span class="skill-item">Node.js</span>
+                    <span class="skill-item">Git</span>
+                    <span class="skill-item">Vim</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section class="section" id="projects">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card scroll-reveal" data-tilt>
-                    <div class="project-image">
-                        <div class="project-icon">🎵</div>
-                        <div class="project-glow"></div>
+    <section class="container" id="projects">
+        <div class="section-header reveal">
+            <span class="section-label">02. REPOSITORY</span>
+            <h2 class="section-title">Featured Projects</h2>
+        </div>
+        <div class="projects-grid">
+            
+            <!-- Project 1 -->
+            <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
+                <div class="project-content">
+                    <div class="project-icon">🎵</div>
+                    <h3 class="project-title">Spatial Audio Engine</h3>
+                    <p class="project-desc">High-performance spatial audio system in Rust. Features real-time HRTF processing and positional 3D sound rendering.</p>
+                    <div class="project-tech">
+                        <span class="tech-pill">Rust</span>
+                        <span class="tech-pill">DSP</span>
+                        <span class="tech-pill">Audio</span>
                     </div>
-                    <div class="project-content">
-                        <h3>Spatial Audio Engine</h3>
-                        <p>A high-performance spatial audio system built with Rust, featuring real-time 3D audio processing and positional sound effects.</p>
-                        <div class="project-tags">
-                            <span class="tag">Rust</span>
-                            <span class="tag">Audio</span>
-                            <span class="tag">3D</span>
-                        </div>
-                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                            View on GitHub <span class="arrow">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card scroll-reveal" data-tilt>
-                    <div class="project-image">
-                        <div class="project-icon">🧮</div>
-                        <div class="project-glow"></div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Quantum Algorithms</h3>
-                        <p>Collection of quantum algorithms implemented in Python using Qiskit, including Grover's search and Shor's factoring algorithm.</p>
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Quantum</span>
-                            <span class="tag">Qiskit</span>
-                        </div>
-                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                            View on GitHub <span class="arrow">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card scroll-reveal" data-tilt>
-                    <div class="project-image">
-                        <div class="project-icon">🏇</div>
-                        <div class="project-glow"></div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Horse Race Simulator</h3>
-                        <p>An interactive horse race simulation game with betting mechanics and live race statistics, built with React and Node.js.</p>
-                        <div class="project-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">Node.js</span>
-                            <span class="tag">Game</span>
-                        </div>
-                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                            View on GitHub <span class="arrow">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card scroll-reveal" data-tilt>
-                    <div class="project-image">
-                        <div class="project-icon">💻</div>
-                        <div class="project-glow"></div>
-                    </div>
-                    <div class="project-content">
-                        <h3>System Utilities</h3>
-                        <p>A collection of system-level utilities and tools built with Rust for performance and reliability.</p>
-                        <div class="project-tags">
-                            <span class="tag">Rust</span>
-                            <span class="tag">Systems</span>
-                            <span class="tag">CLI</span>
-                        </div>
-                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                            View on GitHub <span class="arrow">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card scroll-reveal" data-tilt>
-                    <div class="project-image">
-                        <div class="project-icon">🔬</div>
-                        <div class="project-glow"></div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Quantum Simulations</h3>
-                        <p>Quantum circuit simulators and visualizers for understanding quantum mechanics concepts.</p>
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Quantum</span>
-                            <span class="tag">Visualization</span>
-                        </div>
-                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                            View on GitHub <span class="arrow">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card scroll-reveal" data-tilt>
-                    <div class="project-image">
-                        <div class="project-icon">🌐</div>
-                        <div class="project-glow"></div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Web Applications</h3>
-                        <p>Full-stack web applications showcasing modern development practices and scalable architectures.</p>
-                        <div class="project-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">Next.js</span>
-                            <span class="tag">Full-Stack</span>
-                        </div>
-                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                            View on GitHub <span class="arrow">→</span>
-                        </a>
-                    </div>
+                    <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                        View Code <span>&rarr;</span>
+                    </a>
                 </div>
             </div>
+
+            <!-- Project 2 -->
+            <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
+                <div class="project-content">
+                    <div class="project-icon">⚛️</div>
+                    <h3 class="project-title">Quantum Algorithms</h3>
+                    <p class="project-desc">Implementation of Grover's and Shor's algorithms using Qiskit. Includes visualization of quantum circuit states.</p>
+                    <div class="project-tech">
+                        <span class="tech-pill">Python</span>
+                        <span class="tech-pill">Qiskit</span>
+                        <span class="tech-pill">Math</span>
+                    </div>
+                    <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                        View Code <span>&rarr;</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
+                <div class="project-content">
+                    <div class="project-icon">🏇</div>
+                    <h3 class="project-title">Horse Race Sim</h3>
+                    <p class="project-desc">Interactive Monte Carlo simulation for horse racing with live betting mechanics and real-time WebSocket updates.</p>
+                    <div class="project-tech">
+                        <span class="tech-pill">React</span>
+                        <span class="tech-pill">Node.js</span>
+                        <span class="tech-pill">Socket.io</span>
+                    </div>
+                    <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                        View Code <span>&rarr;</span>
+                    </a>
+                </div>
+            </div>
+
+             <!-- Project 4 -->
+             <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
+                <div class="project-content">
+                    <div class="project-icon">🔧</div>
+                    <h3 class="project-title">Rust CLI Tools</h3>
+                    <p class="project-desc">A suite of blazingly fast command-line utilities replacing standard GNU coreutils for specific workflows.</p>
+                    <div class="project-tech">
+                        <span class="tech-pill">Rust</span>
+                        <span class="tech-pill">Clap</span>
+                        <span class="tech-pill">Terminal</span>
+                    </div>
+                    <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                        View Code <span>&rarr;</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="section section-alt" id="contact">
-        <div class="container">
-            <h2 class="section-title scroll-reveal">Get in Touch</h2>
-            <div class="contact-content">
-                <p class="contact-description scroll-reveal">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
-                <div class="contact-links scroll-reveal">
-                    <a href="mailto:hitkumarp589@gmail.com" class="contact-link contact-link-glow">
-                        <span class="contact-icon">📧</span>
-                        <span>hitkumarp589@gmail.com</span>
-                    </a>
-                    <a href="https://github.com/H33T589" target="_blank" class="contact-link contact-link-glow">
-                        <span class="contact-icon">🐙</span>
-                        <span>github.com/H33T589</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/heet--patel" target="_blank" class="contact-link contact-link-glow">
-                        <span class="contact-icon">💼</span>
-                        <span>linkedin.com/in/heet--patel</span>
-                    </a>
+    <!-- Contact Section (Terminal) -->
+    <section class="container" id="contact">
+        <div class="section-header reveal">
+            <span class="section-label">03. COMMUNICATION</span>
+            <h2 class="section-title">Secure Channel</h2>
+        </div>
+        
+        <div class="contact-wrapper reveal">
+            <div class="terminal-header">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+                <div class="terminal-title">guest@heet-portfolio: ~/contact</div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-output" id="terminalOutput">
+                    <span class="output-line">Welcome to Heet's secure terminal.</span>
+                    <span class="output-line">Establishing connection...</span>
+                    <span class="output-line success">Connection established.</span>
+                    <br>
+                    <span class="output-line">Type your message below to send a transmission.</span>
+                    <span class="output-line" style="color: var(--text-muted)">Available commands: just type normally and hit Enter.</span>
+                </div>
+                <div class="terminal-input-area">
+                    <span class="prompt">guest@portfolio:~$</span>
+                    <input type="text" class="terminal-input" id="terminalInput" placeholder="Type your message here..." autocomplete="off">
+                    <button class="send-btn" id="terminalSend">SEND</button>
                 </div>
             </div>
         </div>
@@ -272,11 +985,353 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p>Built with ❤️ by Heet | <span id="currentYear"></span></p>
+        <div class="container footer-content">
+            <div class="social-links">
+                <!-- Gmail / Email Icon -->
+                <a href="mailto:hitkumarp589@gmail.com" class="social-link" title="Email">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </a>
+                
+                <!-- GitHub Icon -->
+                <a href="https://github.com/H33T589" target="_blank" class="social-link" title="GitHub">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+
+                <!-- LinkedIn Icon -->
+                <a href="https://www.linkedin.com/in/heet--patel" target="_blank" class="social-link" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+            </div>
+            <p class="copyright">&copy; <span id="year"></span> Heet Patel. System Status: <span style="color:var(--blue-accent)">ONLINE</span></p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // ============================================
+        // LOADER SIMULATION
+        // ============================================
+        window.addEventListener('load', () => {
+            const bar = document.getElementById('loaderBar');
+            const status = document.getElementById('loaderStatus');
+            const loader = document.getElementById('loader');
+            
+            const messages = [
+                "Loading core modules...",
+                "Initializing quantum states...",
+                "Optimizing render pipeline...",
+                "System Ready."
+            ];
+
+            let progress = 0;
+            let msgIndex = 0;
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress > 100) progress = 100;
+                
+                bar.style.width = `${progress}%`;
+
+                if (progress > 25 && msgIndex === 0) {
+                    status.textContent = messages[1];
+                    msgIndex++;
+                }
+                if (progress > 60 && msgIndex === 1) {
+                    status.textContent = messages[2];
+                    msgIndex++;
+                }
+                if (progress === 100) {
+                    status.textContent = messages[3];
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.classList.add('loaded');
+                    }, 500);
+                }
+            }, 150);
+        });
+
+        // ============================================
+        // QUANTUM FIELD PARTICLES (MOUSE INTERACTIVE)
+        // ============================================
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        
+        // Mouse state
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        
+        // Resize
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        }
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+                this.baseColor = 'rgba(59, 130, 246, '; // Blue base
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.baseColor + '0.5)';
+                ctx.fill();
+            }
+
+            update() {
+                // Movement
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Mouse Interaction (Repulsion/Attraction physics)
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (distance < mouse.radius) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        const directionX = forceDirectionX * force * 3;
+                        const directionY = forceDirectionY * force * 3;
+                        
+                        // Push away slightly
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    }
+                }
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            let numberOfParticles = (width * height) / 15000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+            }
+            connectParticles();
+        }
+
+        function connectParticles() {
+            let opacityValue = 1;
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x)) 
+                                 + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+                    
+                    if (distance < (width/7) * (height/7)) {
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(34, 211, 238,' + opacityValue * 0.15 + ')'; // Cyan connections
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        resize();
+        animateParticles();
+
+        // ============================================
+        // TYPING EFFECT
+        // ============================================
+        const typeEl = document.getElementById('typingText');
+        const phrases = [
+            "> cargo build",
+            "> python main.py",
+            "> qiskit assemble",
+            "> git commit -m 'Initial'"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typeEl.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typeEl.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        
+        // Start typing after load
+        setTimeout(type, 2000);
+
+        // ============================================
+        // SCROLL REVEAL
+        // ============================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ============================================
+        // HOLOGRAPHIC CARD EFFECT
+        // ============================================
+        function handleCardHover(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+        
+        function handleCardLeave(card) {
+            // Optional: reset effect or fade out border handled by CSS opacity
+        }
+
+        // ============================================
+        // MAGNETIC BUTTONS
+        // ============================================
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const position = btn.getBoundingClientRect();
+                const x = e.pageX - position.left - position.width / 2;
+                const y = e.pageY - position.top - position.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0px, 0px)';
+            });
+        });
+
+        // ============================================
+        // NAV LOGIC
+        // ============================================
+        const nav = document.getElementById('nav');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ============================================
+        // TERMINAL CONTACT LOGIC
+        // ============================================
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalSend = document.getElementById('terminalSend');
+        const terminalOutput = document.getElementById('terminalOutput');
+
+        function addLine(text, type = '') {
+            const div = document.createElement('div');
+            div.className = `output-line ${type}`;
+            div.textContent = text;
+            terminalOutput.appendChild(div);
+            // Scroll to bottom
+            terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
+        }
+
+        function handleSend() {
+            const msg = terminalInput.value.trim();
+            if (!msg) return;
+
+            // Add user input as command
+            addLine(`guest@portfolio:~$ ${msg}`, 'command');
+            terminalInput.value = '';
+
+            // Simulate processing
+            setTimeout(() => {
+                if (msg.toLowerCase() === 'clear') {
+                    terminalOutput.innerHTML = '';
+                    addLine('Terminal cleared.', 'success');
+                } else if (msg.toLowerCase() === 'help') {
+                    addLine('Available commands: clear, help, [any message to simulate email]');
+                } else {
+                    addLine('Processing request...');
+                    addLine('Encrypting message...');
+                    addLine('Opening mail client...', 'success');
+                    
+                    // Trigger real email
+                    setTimeout(() => {
+                        window.location.href = `mailto:hitkumarp589@gmail.com?subject=Portfolio Inquiry&body=${encodeURIComponent(msg)}`;
+                    }, 1000);
+                }
+            }, 600);
+        }
+
+        terminalSend.addEventListener('click', handleSend);
+        terminalInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+        // Set Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+    </script>
 </body>
 </html>
