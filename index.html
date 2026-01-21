@@ -7,15 +7,34 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particles"></canvas>
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-text">Heet</div>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="nav-logo">Heet</div>
+            <div class="nav-logo">
+                <span class="logo-text">Heet</span>
+                <span class="logo-dot">.</span>
+            </div>
             <div class="nav-links">
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
@@ -23,36 +42,43 @@
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-content">
-            <p class="hero-subtitle fade-in">Rust Developer & Quantum Computing Enthusiast</p>
+            <p class="hero-subtitle fade-in">
+                <span class="typing-text" id="typingText"></span>
+                <span class="cursor">|</span>
+            </p>
             <h1 class="hero-title fade-in">Hi, I'm <span class="gradient-text">Heet</span></h1>
             <p class="hero-description fade-in">Building systems at the intersection of systems programming and quantum mechanics. Passionate about creating efficient, secure, and innovative solutions.</p>
             <div class="hero-buttons fade-in">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                <a href="#projects" class="btn btn-primary btn-glow">View Projects</a>
+                <a href="#contact" class="btn btn-secondary btn-glow">Get in Touch</a>
             </div>
         </div>
         <div class="hero-visual">
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
             <div class="orb orb-3"></div>
+            <div class="orb orb-4"></div>
         </div>
     </section>
 
     <!-- About Section -->
     <section class="section" id="about">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
+            <h2 class="section-title scroll-reveal">About Me</h2>
             <div class="about-grid">
-                <div class="about-card">
-                    <h3>🦀 Rust & Systems Programming</h3>
+                <div class="about-card scroll-reveal">
+                    <div class="card-icon">🦀</div>
+                    <h3>Rust & Systems Programming</h3>
                     <p>Specialized in building high-performance, memory-safe applications using Rust. Experienced with async/await, systems architecture, and performance optimization.</p>
                 </div>
-                <div class="about-card">
-                    <h3>⚛️ Quantum Mechanics</h3>
+                <div class="about-card scroll-reveal">
+                    <div class="card-icon">⚛️</div>
+                    <h3>Quantum Mechanics</h3>
                     <p>Fascinated by quantum computing principles, quantum algorithms, and the future of quantum-classical hybrid computing systems.</p>
                 </div>
-                <div class="about-card">
-                    <h3>🚀 Full-Stack Development</h3>
+                <div class="about-card scroll-reveal">
+                    <div class="card-icon">🚀</div>
+                    <h3>Full-Stack Development</h3>
                     <p>Proficient in building complete applications from frontend to backend, with a focus on modern web technologies and best practices.</p>
                 </div>
             </div>
@@ -62,36 +88,36 @@
     <!-- Skills Section -->
     <section class="section section-alt" id="skills">
         <div class="container">
-            <h2 class="section-title">Skills & Technologies</h2>
+            <h2 class="section-title scroll-reveal">Skills & Technologies</h2>
             <div class="skills-grid">
-                <div class="skill-category">
+                <div class="skill-category scroll-reveal">
                     <h3>Programming Languages</h3>
                     <div class="skill-tags">
-                        <span class="tag">Rust</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">TypeScript</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">C++</span>
+                        <span class="tag tag-glow">Rust</span>
+                        <span class="tag tag-glow">Python</span>
+                        <span class="tag tag-glow">TypeScript</span>
+                        <span class="tag tag-glow">JavaScript</span>
+                        <span class="tag tag-glow">C++</span>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category scroll-reveal">
                     <h3>Web Technologies</h3>
                     <div class="skill-tags">
-                        <span class="tag">Next.js</span>
-                        <span class="tag">React</span>
-                        <span class="tag">Node.js</span>
-                        <span class="tag">HTML/CSS</span>
-                        <span class="tag">Tailwind</span>
+                        <span class="tag tag-glow">Next.js</span>
+                        <span class="tag tag-glow">React</span>
+                        <span class="tag tag-glow">Node.js</span>
+                        <span class="tag tag-glow">HTML/CSS</span>
+                        <span class="tag tag-glow">Tailwind</span>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category scroll-reveal">
                     <h3>Tools & Platforms</h3>
                     <div class="skill-tags">
-                        <span class="tag">Git</span>
-                        <span class="tag">Docker</span>
-                        <span class="tag">Linux</span>
-                        <span class="tag">VS Code</span>
-                        <span class="tag">Qiskit</span>
+                        <span class="tag tag-glow">Git</span>
+                        <span class="tag tag-glow">Docker</span>
+                        <span class="tag tag-glow">Linux</span>
+                        <span class="tag tag-glow">VS Code</span>
+                        <span class="tag tag-glow">Qiskit</span>
                     </div>
                 </div>
             </div>
@@ -101,11 +127,12 @@
     <!-- Projects Section -->
     <section class="section" id="projects">
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
+            <h2 class="section-title scroll-reveal">Featured Projects</h2>
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card scroll-reveal" data-tilt>
                     <div class="project-image">
                         <div class="project-icon">🎵</div>
+                        <div class="project-glow"></div>
                     </div>
                     <div class="project-content">
                         <h3>Spatial Audio Engine</h3>
@@ -115,29 +142,35 @@
                             <span class="tag">Audio</span>
                             <span class="tag">3D</span>
                         </div>
-                        <a href="https://github.com/heet/spatial-audio" target="_blank" class="project-link">View Project →</a>
+                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                            View on GitHub <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card scroll-reveal" data-tilt>
                     <div class="project-image">
                         <div class="project-icon">🧮</div>
+                        <div class="project-glow"></div>
                     </div>
                     <div class="project-content">
-                        <h3>Quantum Algorithms Library</h3>
+                        <h3>Quantum Algorithms</h3>
                         <p>Collection of quantum algorithms implemented in Python using Qiskit, including Grover's search and Shor's factoring algorithm.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">Quantum</span>
                             <span class="tag">Qiskit</span>
                         </div>
-                        <a href="https://github.com/heet/quantum-algorithms" target="_blank" class="project-link">View Project →</a>
+                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                            View on GitHub <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card scroll-reveal" data-tilt>
                     <div class="project-image">
                         <div class="project-icon">🏇</div>
+                        <div class="project-glow"></div>
                     </div>
                     <div class="project-content">
                         <h3>Horse Race Simulator</h3>
@@ -147,7 +180,66 @@
                             <span class="tag">Node.js</span>
                             <span class="tag">Game</span>
                         </div>
-                        <a href="https://github.com/heet/horse-race" target="_blank" class="project-link">View Project →</a>
+                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                            View on GitHub <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-reveal" data-tilt>
+                    <div class="project-image">
+                        <div class="project-icon">💻</div>
+                        <div class="project-glow"></div>
+                    </div>
+                    <div class="project-content">
+                        <h3>System Utilities</h3>
+                        <p>A collection of system-level utilities and tools built with Rust for performance and reliability.</p>
+                        <div class="project-tags">
+                            <span class="tag">Rust</span>
+                            <span class="tag">Systems</span>
+                            <span class="tag">CLI</span>
+                        </div>
+                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                            View on GitHub <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-reveal" data-tilt>
+                    <div class="project-image">
+                        <div class="project-icon">🔬</div>
+                        <div class="project-glow"></div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Quantum Simulations</h3>
+                        <p>Quantum circuit simulators and visualizers for understanding quantum mechanics concepts.</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Quantum</span>
+                            <span class="tag">Visualization</span>
+                        </div>
+                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                            View on GitHub <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card scroll-reveal" data-tilt>
+                    <div class="project-image">
+                        <div class="project-icon">🌐</div>
+                        <div class="project-glow"></div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Web Applications</h3>
+                        <p>Full-stack web applications showcasing modern development practices and scalable architectures.</p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Next.js</span>
+                            <span class="tag">Full-Stack</span>
+                        </div>
+                        <a href="https://github.com/H33T589" target="_blank" class="project-link">
+                            View on GitHub <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -157,21 +249,21 @@
     <!-- Contact Section -->
     <section class="section section-alt" id="contact">
         <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
+            <h2 class="section-title scroll-reveal">Get in Touch</h2>
             <div class="contact-content">
-                <p class="contact-description">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
-                <div class="contact-links">
-                    <a href="mailto:heet@example.com" class="contact-link">
+                <p class="contact-description scroll-reveal">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+                <div class="contact-links scroll-reveal">
+                    <a href="mailto:hitkumarp589@gmail.com" class="contact-link contact-link-glow">
                         <span class="contact-icon">📧</span>
-                        <span>heet@example.com</span>
+                        <span>hitkumarp589@gmail.com</span>
                     </a>
-                    <a href="https://github.com/heet" target="_blank" class="contact-link">
+                    <a href="https://github.com/H33T589" target="_blank" class="contact-link contact-link-glow">
                         <span class="contact-icon">🐙</span>
-                        <span>GitHub</span>
+                        <span>github.com/H33T589</span>
                     </a>
-                    <a href="https://linkedin.com/in/heet" target="_blank" class="contact-link">
+                    <a href="https://www.linkedin.com/in/heet--patel" target="_blank" class="contact-link contact-link-glow">
                         <span class="contact-icon">💼</span>
-                        <span>LinkedIn</span>
+                        <span>linkedin.com/in/heet--patel</span>
                     </a>
                 </div>
             </div>
@@ -181,7 +273,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>Built with ❤️ by Heet | Rust Developer & Quantum Computing Enthusiast</p>
+            <p>Built with ❤️ by Heet | <span id="currentYear"></span></p>
         </div>
     </footer>
 
