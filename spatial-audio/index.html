@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Audio Engine | Heet</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="title">🔊 Spatial Audio Engine</h1>
+            <p class="subtitle">Interactive 3D Audio Positioning System</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main">
+        <!-- Audio Visualization -->
+        <div class="visualization-section">
+            <div class="canvas-container">
+                <canvas id="audioCanvas"></canvas>
+                <div class="canvas-overlay">
+                    <div class="listener-label">👤 Listener</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <div class="panel-section">
+                <h2 class="panel-title">Sound Sources</h2>
+                <div class="sound-sources">
+                    <div class="sound-source" data-color="#3b82f6" data-frequency="440">
+                        <div class="source-indicator" style="background: #3b82f6;"></div>
+                        <div class="source-info">
+                            <h3>Source 1 - Low</h3>
+                            <p>Frequency: 440 Hz</p>
+                        </div>
+                        <button class="btn btn-toggle" data-source="0">▶ Play</button>
+                    </div>
+
+                    <div class="sound-source" data-color="#60a5fa" data-frequency="554">
+                        <div class="source-indicator" style="background: #60a5fa;"></div>
+                        <div class="source-info">
+                            <h3>Source 2 - Mid</h3>
+                            <p>Frequency: 554 Hz</p>
+                        </div>
+                        <button class="btn btn-toggle" data-source="1">▶ Play</button>
+                    </div>
+
+                    <div class="sound-source" data-color="#22d3ee" data-frequency="659">
+                        <div class="source-indicator" style="background: #22d3ee;"></div>
+                        <div class="source-info">
+                            <h3>Source 3 - High</h3>
+                            <p>Frequency: 659 Hz</p>
+                        </div>
+                        <button class="btn btn-toggle" data-source="2">▶ Play</button>
+                    </div>
+
+                    <div class="sound-source" data-color="#1d4ed8" data-frequency="880">
+                        <div class="source-indicator" style="background: #1d4ed8;"></div>
+                        <div class="source-info">
+                            <h3>Source 4 - Higher</h3>
+                            <p>Frequency: 880 Hz</p>
+                        </div>
+                        <button class="btn btn-toggle" data-source="3">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h2 class="panel-title">Controls</h2>
+                <div class="control-group">
+                    <div class="control">
+                        <label>Master Volume</label>
+                        <input type="range" id="masterVolume" min="0" max="100" value="50">
+                        <span class="control-value">50%</span>
+                    </div>
+
+                    <div class="control">
+                        <label>Rolloff Factor</label>
+                        <input type="range" id="rolloffFactor" min="0" max="100" value="20">
+                        <span class="control-value">20</span>
+                    </div>
+
+                    <div class="control">
+                        <label>Reference Distance</label>
+                        <input type="range" id="referenceDistance" min="10" max="100" value="50">
+                        <span class="control-value">50</span>
+                    </div>
+
+                    <div class="control">
+                        <label>Max Distance</label>
+                        <input type="range" id="maxDistance" min="100" max="1000" value="500">
+                        <span class="control-value">500</span>
+                    </div>
+
+                    <button class="btn btn-primary btn-full" id="playAll">▶ Play All Sources</button>
+                    <button class="btn btn-secondary btn-full" id="stopAll">⏹ Stop All Sources</button>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h2 class="panel-title">Instructions</h2>
+                <div class="instructions">
+                    <p><strong>🎯 How to Use:</strong></p>
+                    <ul>
+                        <li>Click on the canvas to place sound sources</li>
+                        <li>Drag existing sources to reposition them</li>
+                        <li>Blue circle (center) is the listener</li>
+                        <li>Use controls to adjust audio parameters</li>
+                        <li>Wear headphones for best spatial experience</li>
+                    </ul>
+                    <p><strong>🔊 What You'll Experience:</strong></p>
+                    <ul>
+                        <li>Audio pans left/right as sources move</li>
+                        <li>Volume decreases with distance</li>
+                        <li>Real-time 3D spatial positioning</li>
+                        <li>Visual sound wave representation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <h2>🛠️ Built with Web Audio API</h2>
+        <p>This spatial audio engine uses the browser's Web Audio API with PannerNode for real-time 3D sound positioning. Move the sound sources around the canvas to hear the audio change in position and intensity!</p>
+        <div class="tech-stack">
+            <span class="tag">Web Audio API</span>
+            <span class="tag">Canvas API</span>
+            <span class="tag">3D Audio</span>
+            <span class="tag">PannerNode</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Built by Heet | <a href="https://github.com/H33T589" target="_blank">GitHub</a> | <a href="https://h33t589.github.io/" target="_blank">Portfolio</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
