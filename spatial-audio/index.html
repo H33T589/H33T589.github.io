@@ -4,140 +4,616 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H33T • Spatial Audio Engine</title>
-    <!-- Link to your MAIN Portfolio CSS -->
-    <link rel="stylesheet" href="../styles.css">
-    <!-- Link to the Specific App CSS -->
-    <link rel="stylesheet" href="app-styles.css">
+    <style>
+        /* =========================================
+           PORTFOLIO CSS (Embedded)
+           ========================================= */
+        :root {
+            --obsidian-dark: #050505;
+            --obsidian-mid: #0f1115;
+            --obsidian-light: #1a1d24;
+            --rust-orange: #dea584; 
+            --rust-dark: #863505;
+            --blue-primary: #3b82f6;
+            --blue-cyan: #06b6d4;
+            --blue-accent: #22d3ee;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --font-mono: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--obsidian-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--obsidian-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--obsidian-light); border-radius: 4px; }
+
+        /* Loader */
+        .loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--obsidian-dark); display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .loader.loaded { opacity: 0; visibility: hidden; }
+        .loader-text { font-family: var(--font-mono); font-size: 2rem; color: var(--blue-accent); margin-bottom: 1.5rem; letter-spacing: -0.1em; }
+        .loader-bar-container { width: 200px; height: 2px; background: var(--obsidian-light); position: relative; overflow: hidden; }
+        .loader-bar { width: 0%; height: 100%; background: var(--blue-accent); transition: width 0.2s linear; box-shadow: 0 0 10px var(--blue-accent); }
+        .loader-status { margin-top: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Nav */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-decoration: none; cursor: pointer; }
+        .nav-logo:hover { color: var(--blue-accent); animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
+        @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
+        .nav-link { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; margin-left: 2rem; transition: color 0.3s; }
+        .nav-link:hover { color: var(--text-primary); }
+
+        /* Particles */
+        #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        /* =========================================
+           APP SPECIFIC CSS
+           ========================================= */
+        .app-container { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 8rem 2rem 4rem 2rem; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        .app-header { margin-bottom: 1.5rem; }
+        .section-label { font-family: var(--font-mono); color: var(--blue-accent); font-size: 0.85rem; margin-bottom: 0.5rem; display: block; }
+        .section-title { font-size: 2.5rem; font-weight: 700; color: var(--text-primary); }
+        
+        /* Instructions */
+        .instructions {
+            background: rgba(34, 211, 238, 0.05);
+            border-left: 3px solid var(--blue-accent);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .instructions ul { list-style: none; margin-top: 0.5rem; display: flex; gap: 2rem; flex-wrap: wrap; }
+        .instructions li span { color: var(--blue-primary); font-weight: bold; }
+
+        /* Interface Layout */
+        .interface-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; height: 700px; }
+        .panel {
+            background: rgba(15, 17, 21, 0.8); border: 1px solid var(--obsidian-light);
+            border-radius: 12px; display: flex; flex-direction: column; overflow: hidden;
+            backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .panel-header { background: var(--obsidian-light); padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .panel-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Audio Canvas */
+        .canvas-container { flex: 1; position: relative; background: radial-gradient(circle at center, #1a1d24 0%, #050505 100%); cursor: crosshair; }
+        #spatialCanvas { width: 100%; height: 100%; display: block; }
+        
+        .start-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(5,5,5,0.7); backdrop-filter: blur(5px); z-index: 10; }
+        .start-overlay.hidden { display: none; }
+        .start-btn-box { width: 350px; background: var(--obsidian-mid); border: 1px solid var(--blue-accent); border-radius: 8px; padding: 2rem; text-align: center; box-shadow: 0 0 20px rgba(34, 211, 238, 0.2); }
+
+        /* Mixer */
+        .mixer-content { padding: 1.5rem; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        /* Global Controls */
+        .global-controls { padding-bottom: 1rem; border-bottom: 1px solid var(--obsidian-light); }
+        .control-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+        .mono-label { font-family: var(--font-mono); font-size: 0.8rem; color: var(--blue-accent); }
+
+        /* Sliders */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: var(--obsidian-light); border-radius: 2px; }
+        input[type=range]::-webkit-slider-thumb { height: 16px; width: 16px; border-radius: 50%; background: var(--blue-primary); cursor: pointer; -webkit-appearance: none; margin-top: -6px; transition: background 0.2s; }
+        input[type=range]::-webkit-slider-thumb:hover { background: var(--blue-accent); }
+
+        /* Drop Zone */
+        .drop-zone {
+            border: 2px dashed var(--obsidian-light);
+            border-radius: 8px; padding: 1.5rem; text-align: center;
+            background: rgba(255,255,255,0.02); transition: all 0.3s; cursor: pointer;
+        }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--blue-accent); background: rgba(34, 211, 238, 0.05); }
+        .drop-zone-text { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); pointer-events: none; }
+
+        /* Channel Cards */
+        .channel-card { background: rgba(255,255,255,0.03); border: 1px solid transparent; border-radius: 6px; padding: 1rem; transition: all 0.2s; }
+        .channel-card:hover { border-color: var(--blue-primary); background: rgba(59, 130, 246, 0.05); }
+        
+        .ch-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+        .ch-name { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-primary); font-weight: bold; }
+        .ch-actions { display: flex; gap: 0.5rem; }
+        
+        .icon-btn { background: transparent; border: 1px solid var(--obsidian-light); color: var(--text-muted); width: 28px; height: 28px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .icon-btn:hover { border-color: var(--blue-accent); color: var(--blue-accent); }
+        .icon-btn.active { background: var(--blue-primary); border-color: var(--blue-primary); color: white; }
+        .icon-btn.muted { background: #ef4444; border-color: #ef4444; color: white; }
+
+        /* Preset Selector */
+        .preset-select {
+            width: 100%; background: var(--obsidian-dark); color: var(--text-primary);
+            border: 1px solid var(--obsidian-light); padding: 4px 8px;
+            font-family: var(--font-mono); font-size: 0.75rem; border-radius: 4px;
+            margin-bottom: 0.5rem; outline: none;
+        }
+        .preset-select:focus { border-color: var(--blue-accent); }
+
+        /* Footer */
+        .footer { border-top: 1px solid var(--obsidian-light); padding: 3rem 0; text-align: center; background: var(--obsidian-dark); position: relative; z-index: 1; }
+        .social-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 1rem; }
+        .social-link { color: var(--text-secondary); transition: color 0.3s; cursor: pointer; }
+        .social-link:hover { color: var(--blue-accent); }
+
+        @media (max-width: 900px) {
+            .interface-wrapper { grid-template-columns: 1fr; height: auto; }
+            .canvas-container { height: 400px; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Particle Canvas (From Portfolio) -->
+    <!-- Particle Canvas -->
     <canvas id="particles"></canvas>
 
-    <!-- Loader (From Portfolio) -->
+    <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader-text">&gt; INIT_AUDIO_ENGINE</div>
-        <div class="loader-bar-container">
-            <div class="loader-bar" id="loaderBar"></div>
-        </div>
+        <div class="loader-bar-container"><div class="loader-bar" id="loaderBar"></div></div>
         <div class="loader-status" id="loaderStatus">Loading DSP modules...</div>
     </div>
 
-    <!-- Navigation (Links back to main portfolio) -->
-    <nav class="nav" id="nav">
-        <div class="nav-container">
-            <a href="../index.html" class="nav-logo">H33T<span style="color:var(--blue-accent)">.</span></a>
-            <div class="nav-links">
-                <a href="../index.html#projects" class="nav-link">./Back_to_Portfolio</a>
-                <a href="https://github.com/H33T589" target="_blank" class="nav-link">./Source_Code</a>
-            </div>
-            <div class="menu-toggle" id="menuToggle">
-                <!-- SVG Hamburger -->
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </div>
+    <!-- Nav -->
+    <nav class="nav">
+        <a href="../index.html" class="nav-logo">H33T<span style="color:var(--blue-accent)">.</span></a>
+        <div style="display:flex;">
+            <a href="../index.html#projects" class="nav-link">./Back_to_Portfolio</a>
+            <a href="https://github.com/H33T589" target="_blank" class="nav-link">./Source_Code</a>
         </div>
     </nav>
 
-    <!-- MAIN APP SECTION -->
-    <section class="app-hero">
-        <div class="container app-container">
+    <!-- Main App -->
+    <section class="app-container">
+        <div class="app-header">
+            <span class="section-label">03. AUDIO_MODULE</span>
+            <h1 class="section-title">Spatial Audio Engine</h1>
+        </div>
+
+        <!-- How To Use -->
+        <div class="instructions">
+            <strong>USAGE PROTOCOL:</strong>
+            <ul>
+                <li><span>DRAG</span> Sources on the grid to move sound (Left/Right/Close/Far).</li>
+                <li><span>HEIGHT</span> Sliders control 3D elevation (Up/Down).</li>
+                <li><span>HEADPHONES</span> Required for true HRTF 3D effect.</li>
+                <li><span>DROP</span> MP3/WAV files into the box below to test custom audio.</li>
+            </ul>
+        </div>
+
+        <div class="interface-wrapper">
             
-            <!-- Header / Instructions -->
-            <div class="app-header reveal">
-                <span class="section-label">03. AUDIO_MODULE</span>
-                <h1 class="section-title">Spatial Audio Engine</h1>
-                <p class="hero-description">
-                    Real-time Web Audio API visualization. Drag sources to position sound in 3D space. 
-                    <span style="color:var(--blue-accent)">[HRTF Enabled]</span>
-                </p>
+            <!-- Visualizer -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div style="width:10px; height:10px; border-radius:50%; background:#10b981;"></div>
+                    <span class="panel-title">viewport_3d.cpp</span>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="spatialCanvas"></canvas>
+                    <div id="startOverlay" class="start-overlay">
+                        <div class="start-btn-box">
+                            <h3 style="margin-bottom:1rem; color:var(--text-primary);">Audio Context Suspended</h3>
+                            <p style="margin-bottom:1.5rem; color:var(--text-secondary); font-family:var(--font-mono); font-size:0.9rem;">Click to initialize the 3D Audio Engine.</p>
+                            <button id="startEngineBtn" class="icon-btn" style="width:100%; padding:10px; height:auto;">INIT_ENGINE()</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Audio Interface (Split Layout) -->
-            <div class="interface-wrapper reveal">
-                
-                <!-- VISUALIZER (Canvas) -->
-                <div class="visualizer-panel">
-                    <div class="panel-header">
-                        <span class="terminal-dot dot-green"></span>
-                        <span class="terminal-title">viewport_3d.cpp</span>
-                    </div>
+            <!-- Mixer -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div style="width:10px; height:10px; border-radius:50%; background:#f59e0b;"></div>
+                    <span class="panel-title">mixer_controls.conf</span>
+                </div>
+                <div class="mixer-content">
                     
-                    <div class="canvas-container">
-                        <canvas id="spatialCanvas"></canvas>
-                        
-                        <!-- Audio Start Overlay -->
-                        <div id="startOverlay" class="start-overlay hidden">
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-dot dot-red"></div>
-                                    <div class="terminal-dot dot-yellow"></div>
-                                    <div class="terminal-dot dot-green"></div>
-                                    <div class="terminal-title">root@system:~</div>
-                                </div>
-                                <div class="terminal-body">
-                                    <span class="output-line">Audio Context suspended.</span>
-                                    <span class="output-line">User interaction required to initialize stream.</span>
-                                    <br>
-                                    <button id="startEngineBtn" class="btn btn-primary">INIT_ENGINE()</button>
-                                </div>
-                            </div>
+                    <!-- Global -->
+                    <div class="global-controls">
+                        <div class="control-row">
+                            <span class="mono-label">MASTER_GAIN</span>
                         </div>
+                        <input type="range" id="masterVol" min="0" max="2" step="0.1" value="1">
+                        <div class="control-row" style="margin-top:10px;">
+                            <span class="mono-label">ROOM_SIZE</span>
+                        </div>
+                        <input type="range" id="roomSize" min="10" max="100" step="1" value="30">
                     </div>
+
+                    <!-- Drop Zone -->
+                    <div class="drop-zone" id="dropZone">
+                        <p class="drop-zone-text">Drag & Drop Audio Files Here<br><span style="font-size:0.7rem; color:var(--blue-accent)">(Assigns to selected channel)</span></p>
+                        <input type="file" id="fileInput" accept="audio/*" style="display:none">
+                    </div>
+
+                    <!-- Channels -->
+                    <div id="channelList"></div>
+
                 </div>
-
-                <!-- MIXER (Controls) -->
-                <div class="mixer-panel">
-                    <div class="panel-header">
-                        <span class="terminal-dot dot-yellow"></span>
-                        <span class="terminal-title">mixer_controls.conf</span>
-                    </div>
-
-                    <div class="mixer-content">
-                        <!-- Global Settings -->
-                        <div class="control-group">
-                            <label class="mono-label">MASTER_GAIN</label>
-                            <input type="range" id="masterVol" min="0" max="2" step="0.1" value="1">
-                        </div>
-
-                        <div class="control-group">
-                            <label class="mono-label">ROOM_SIZE (MAX_DIST)</label>
-                            <input type="range" id="roomSize" min="10" max="50" step="1" value="20">
-                        </div>
-
-                        <div class="channel-divider"></div>
-
-                        <!-- Dynamic Channels -->
-                        <div id="channelList" class="channel-list">
-                            <!-- JS will populate this -->
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </div>
     </section>
 
-    <!-- Footer (From Portfolio) -->
+    <!-- Footer -->
     <footer class="footer">
-        <div class="container footer-content">
-            <div class="social-links">
-                <!-- Social Icons from portfolio -->
-                <a href="mailto:hitkumarp589@gmail.com" class="social-link">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                </a>
-                <a href="https://github.com/H33T589" target="_blank" class="social-link">
-                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-            </div>
-            <p class="copyright">&copy; <span id="year"></span> Heet Patel. Status: <span style="color:var(--blue-accent)">ONLINE</span></p>
+        <div class="social-links">
+            <a href="mailto:hitkumarp589@gmail.com" class="social-link">Email</a>
+            <a href="https://github.com/H33T589" target="_blank" class="social-link">GitHub</a>
+            <a href="https://www.linkedin.com/in/heet--patel" target="_blank" class="social-link">LinkedIn</a>
         </div>
+        <p style="color:var(--text-muted); font-size:0.8rem;">&copy; <span id="year"></span> Heet Patel. Status: <span style="color:var(--blue-accent)">ONLINE</span></p>
     </footer>
 
-    <script src="app-logic.js"></script>
+    <!-- LOGIC -->
+    <script>
+        // ============================================
+        // 1. PORTFOLIO UTILITIES
+        // ============================================
+        window.addEventListener('load', () => {
+            const bar = document.getElementById('loaderBar'), status = document.getElementById('loaderStatus'), loader = document.getElementById('loader');
+            const messages = ["Loading Web Audio API...", "Initializing HRTF Panners...", "Synthesizing Preset Samples...", "System Ready."];
+            let progress = 0, msgIndex = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15; if (progress > 100) progress = 100;
+                bar.style.width = `${progress}%`;
+                if (progress > 30 && msgIndex === 0) { status.textContent = messages[1]; msgIndex++; }
+                if (progress > 60 && msgIndex === 1) { status.textContent = messages[2]; msgIndex++; }
+                if (progress === 100) { status.textContent = messages[3]; clearInterval(interval); setTimeout(() => loader.classList.add('loaded'), 500); }
+            }, 100);
+        });
+
+        // Particles
+        const pCanvas = document.getElementById('particles'), pCtx = pCanvas.getContext('2d');
+        let pW, pH, particles = []; let mouse = { x: null, y: null, radius: 150 };
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('resize', () => { pW = pCanvas.width = window.innerWidth; pH = pCanvas.height = window.innerHeight; });
+        (function initParticles(){ pW = pCanvas.width = window.innerWidth; pH = pCanvas.height = window.innerHeight; particles = []; for (let i = 0; i < (pW * pH) / 15000; i++) particles.push({ x: Math.random()*pW, y: Math.random()*pH, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 }); })();
+        function animParticles() {
+            requestAnimationFrame(animParticles); pCtx.clearRect(0,0,pW,pH);
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if(mouse.x!=null) { let dx = mouse.x-p.x, dy = mouse.y-p.y, dist = Math.sqrt(dx*dx+dy*dy); if(dist<mouse.radius) { p.x -= (dx/dist)*((mouse.radius-dist)/mouse.radius)*3; p.y -= (dy/dist)*((mouse.radius-dist)/mouse.radius)*3; }}
+                if(p.x<0||p.x>pW) p.vx*=-1; if(p.y<0||p.y>pH) p.vy*=-1;
+                pCtx.beginPath(); pCtx.arc(p.x,p.y,2,0,Math.PI*2); pCtx.fillStyle='rgba(59, 130, 246, 0.5)'; pCtx.fill();
+            });
+            for(let a=0;a<particles.length;a++) for(let b=a;b<particles.length;b++) { let dx=particles[a].x-particles[b].x, dy=particles[a].y-particles[b].y, dist=dx*dx+dy*dy; if(dist<(pW/7)*(pH/7)) { pCtx.strokeStyle='rgba(34, 211, 238,'+(1-dist/20000)*0.15+')'; pCtx.beginPath(); pCtx.moveTo(particles[a].x,particles[a].y); pCtx.lineTo(particles[b].x,particles[b].y); pCtx.stroke(); }}
+        }
+        animParticles();
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+
+        // ============================================
+        // 2. AUDIO ENGINE & PRESETS
+        // ============================================
+        let audioCtx, isInit = false;
+        const state = { 
+            sources: [], masterGain: null, draggedIdx: -1, 
+            selectedChannelIdx: 0, // For file drop
+            scale: 20, maxDist: 30 
+        };
+        const aCanvas = document.getElementById('spatialCanvas'), aCtx = aCanvas.getContext('2d');
+        const channelList = document.getElementById('channelList');
+
+        // --- PRESET GENERATION (Procedural Audio) ---
+        const presetBank = {
+            1: { name: "Pink Noise (Static)", type: "noise" },
+            2: { name: "Low Sine (Bass)", type: "sine", freq: 110 },
+            3: { name: "Sci-Fi Sweep", type: "sweep" },
+            4: { name: "Rhythmic Click", type: "click" },
+            5: { name: "High Drone", type: "sine", freq: 880 }
+        };
+
+        function generateBuffer(type, freq = 440) {
+            const duration = 2.0;
+            const sr = audioCtx.sampleRate;
+            const buffer = audioCtx.createBuffer(1, sr * duration, sr);
+            const data = buffer.getChannelData(0);
+            
+            if (type === "noise") {
+                // Pink Noise
+                let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+                for (let i=0; i < sr*duration; i++) {
+                    const white = Math.random() * 2 - 1;
+                    b0 = 0.99886*b0 + white*0.0555179; b1 = 0.99332*b1 + white*0.0750759;
+                    b2 = 0.96900*b2 + white*0.1538520; b3 = 0.86650*b3 + white*0.3104856;
+                    b4 = 0.55000*b4 + white*0.5329522; b5 = -0.7616*b5 - white*0.0168980;
+                    data[i] = b0+b1+b2+b3+b4+b5+b6+white*0.5362; data[i] *= 0.11; b6 = white*0.115926;
+                }
+            } else if (type === "sine") {
+                for (let i=0; i<sr*duration; i++) {
+                    data[i] = Math.sin(2 * Math.PI * freq * (i/sr));
+                    // Add slight decay to sound more natural
+                    if(i > sr/4) data[i] *= 0.999;
+                }
+            } else if (type === "sweep") {
+                for (let i=0; i<sr*duration; i++) {
+                    const currentFreq = 200 + (i/sr) * 800; // 200Hz to 1000Hz
+                    data[i] = Math.sin(2 * Math.PI * currentFreq * (i/sr));
+                    data[i] *= Math.exp(-3 * (i/sr)); // Fast decay
+                }
+            } else if (type === "click") {
+                for (let i=0; i<sr*duration; i++) {
+                    data[i] = (i % (sr/4) < 500) ? Math.random() : 0; // 4 clicks per second
+                }
+            }
+            return buffer;
+        }
+
+        // --- SOURCE CLASS ---
+        class Source {
+            constructor(id, ctx, dest) {
+                this.id = id;
+                this.ctx = ctx;
+                this.x = (id%2===0?-4:4); this.z = -4+(Math.floor(id/2)*4); this.y = 0; // 3D coords
+                this.gain = ctx.createGain();
+                this.panner = ctx.createPanner();
+                this.panner.panningModel = 'HRTF'; this.panner.distanceModel = 'inverse';
+                this.panner.refDistance = 1; this.panner.maxDistance = state.maxDist; this.panner.rolloffFactor = 1;
+                this.updatePos();
+                this.gain.connect(this.panner); this.panner.connect(dest);
+                this.gain.gain.value = 0.5;
+                this.isPlaying = true;
+                this.isMuted = false;
+                
+                // Load default Preset 1
+                this.loadPreset(1);
+            }
+
+            loadPreset(idx) {
+                this.stopSound();
+                const conf = presetBank[idx];
+                this.buffer = generateBuffer(conf.type, conf.freq || 440);
+                this.playSound();
+                this.currentPresetName = conf.name;
+                updateUIControls(this.id);
+            }
+
+            loadFile(file) {
+                this.stopSound();
+                const reader = new FileReader();
+                reader.onload = e => {
+                    this.ctx.decodeAudioData(e.target.result, buf => {
+                        this.buffer = buf;
+                        this.playSound();
+                        this.currentPresetName = file.name.substring(0, 15) + (file.name.length>15 ? '...' : '');
+                        updateUIControls(this.id);
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            }
+
+            playSound() {
+                if(this.isMuted) return;
+                this.node = this.ctx.createBufferSource();
+                this.node.buffer = this.buffer;
+                this.node.loop = true;
+                this.node.connect(this.gain);
+                this.node.start(0);
+                this.isPlaying = true;
+            }
+
+            stopSound() {
+                if(this.node) { try{this.node.stop();}catch(e){} this.node.disconnect(); this.node=null; }
+                this.isPlaying = false;
+            }
+
+            toggleMute() {
+                this.isMuted = !this.isMuted;
+                if(this.isMuted) {
+                    this.gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.1);
+                } else {
+                    this.gain.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.1);
+                }
+                updateUIControls(this.id);
+            }
+
+            updatePos() {
+                const t = this.ctx.currentTime;
+                this.panner.positionX.setTargetAtTime(this.x, t, 0.1);
+                this.panner.positionY.setTargetAtTime(this.y, t, 0.1); // Height
+                this.panner.positionZ.setTargetAtTime(this.z, t, 0.1);
+            }
+        }
+
+        // --- INITIALIZATION ---
+        function initAudio() {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AC();
+            state.masterGain = audioCtx.createGain(); state.masterGain.connect(audioCtx.destination);
+            for(let i=0;i<4;i++) state.sources.push(new Source(i, audioCtx, state.masterGain));
+            isInit = true;
+            document.getElementById('startOverlay').classList.add('hidden');
+            buildMixer();
+            resizeACanvas();
+            drawLoop();
+        }
+        document.getElementById('startEngineBtn').addEventListener('click', initAudio);
+
+        function resizeACanvas() { const r = aCanvas.parentElement.getBoundingClientRect(); aCanvas.width = r.width; aCanvas.height = r.height; }
+        window.addEventListener('resize', resizeACanvas);
+
+        const cX = v => aCanvas.width/2 + (v*state.scale);
+        const cY = v => aCanvas.height/2 + (v*state.scale); // Z maps to Y on screen
+        const aX = v => (v-aCanvas.width/2)/state.scale;
+        const aZ = v => (v-aCanvas.height/2)/state.scale;
+
+        // --- INTERACTION ---
+        aCanvas.addEventListener('mousedown', e => { 
+            const {x,y} = getPos(e); 
+            state.sources.forEach((s,i) => { if(Math.hypot(x-cX(s.x), y-cY(s.z)) < 20) { state.draggedIdx = i; selectChannel(i); } }); 
+        });
+        aCanvas.addEventListener('mousemove', e => { 
+            if(state.draggedIdx!==-1) { 
+                const s=state.sources[state.draggedIdx]; 
+                s.x=aX(getPos(e).x); s.z=aZ(getPos(e).y); s.updatePos(); 
+            } 
+        });
+        window.addEventListener('mouseup', () => state.draggedIdx = -1);
+        function getPos(e) { const r = aCanvas.getBoundingClientRect(); return { x:e.clientX-r.left, y:e.clientY-r.top }; }
+
+        function drawLoop() {
+            if(!isInit) return;
+            aCtx.clearRect(0,0,aCanvas.width,aCanvas.height);
+            const cx=aCanvas.width/2, cy=aCanvas.height/2;
+            
+            // Grid
+            aCtx.strokeStyle='rgba(34, 211, 238, 0.1)'; aCtx.beginPath(); aCtx.arc(cx,cy,state.maxDist*state.scale,0,Math.PI*2); aCtx.stroke();
+            
+            // Listener
+            aCtx.fillStyle='#dea584'; aCtx.shadowColor='#dea584'; aCtx.shadowBlur=15; aCtx.beginPath(); aCtx.arc(cx,cy,8,0,Math.PI*2); aCtx.fill();
+            
+            // Sources
+            state.sources.forEach((s, i) => {
+                const sx=cX(s.x), sy=cY(s.z);
+                // Highlight selected
+                if(i === state.selectedChannelIdx) {
+                    aCtx.strokeStyle='rgba(34, 211, 238, 0.8)'; aCtx.lineWidth=2;
+                    aCtx.beginPath(); aCtx.arc(sx,sy,14,0,Math.PI*2); aCtx.stroke();
+                    aCtx.lineWidth=1;
+                }
+                // Connection Line
+                aCtx.strokeStyle='rgba(255,255,255,0.1)'; aCtx.beginPath(); aCtx.moveTo(cx,cy); aCtx.lineTo(sx,sy); aCtx.stroke();
+                // Source Dot
+                aCtx.fillStyle='#3b82f6'; aCtx.shadowColor='#3b82f6'; aCtx.beginPath(); aCtx.arc(sx,sy,6,0,Math.PI*2); aCtx.fill();
+                
+                // Visualizing Height (Up/Down) - Offset by Y
+                if(s.y !== 0) {
+                    aCtx.fillStyle = s.y > 0 ? '#10b981' : '#ef4444'; // Green = Up, Red = Down
+                    aCtx.beginPath(); aCtx.arc(sx+10, sy-10, 3, 0, Math.PI*2); aCtx.fill();
+                }
+            });
+            requestAnimationFrame(drawLoop);
+        }
+
+        // --- UI LOGIC ---
+        function selectChannel(idx) {
+            state.selectedChannelIdx = idx;
+            // Update visual selection
+            document.querySelectorAll('.channel-card').forEach((el, i) => {
+                if(i === idx) el.style.borderColor = 'var(--blue-accent)';
+                else el.style.borderColor = 'transparent';
+            });
+        }
+
+        function buildMixer() {
+            channelList.innerHTML = '';
+            state.sources.forEach((s,i) => {
+                const d = document.createElement('div'); d.className = 'channel-card'; d.id=`ch-${i}`;
+                d.onclick = (e) => { if(e.target.tagName!=='INPUT' && e.target.tagName!=='BUTTON' && e.target.tagName!=='SELECT') selectChannel(i); };
+                
+                d.innerHTML = `
+                    <div class="ch-top">
+                        <span class="ch-name">CH_0${i+1}</span>
+                        <div class="ch-actions">
+                            <button class="icon-btn muted" onclick="state.sources[${i}].toggleMute()" id="mute-btn-${i}">M</button>
+                        </div>
+                    </div>
+                    <select class="preset-select" onchange="state.sources[${i}].loadPreset(this.value)">
+                        <option value="1">1. Pink Noise (Static)</option>
+                        <option value="2">2. Low Sine (Bass)</option>
+                        <option value="3">3. Sci-Fi Sweep</option>
+                        <option value="4">4. Rhythmic Click</option>
+                        <option value="5">5. High Drone</option>
+                    </select>
+                    
+                    <div class="control-row" style="margin-top:5px;">
+                        <span class="mono-label" style="font-size:0.7rem">VOL</span>
+                        <span class="mono-label" style="font-size:0.7rem">HEIGHT(Y)</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <input type="range" min="0" max="1" step="0.01" value="0.5" oninput="if(!state.sources[${i}].isMuted) state.sources[${i}].gain.gain.value = this.value">
+                        <input type="range" min="-5" max="5" step="0.1" value="0" oninput="state.sources[${i}].y = parseFloat(this.value); state.sources[${i}].updatePos()">
+                    </div>
+                    <div class="mono-label" style="font-size:0.7rem; color:var(--text-muted); margin-top:5px; white-space:nowrap; overflow:hidden;" id="name-${i}">Pink Noise (Static)</div>
+                `;
+                channelList.appendChild(d);
+            });
+            selectChannel(0);
+        }
+
+        function updateUIControls(id) {
+            const nameEl = document.getElementById(`name-${id}`);
+            if(nameEl) nameEl.textContent = state.sources[id].currentPresetName || "Custom Audio";
+            const muteBtn = document.getElementById(`mute-btn-${id}`);
+            if(muteBtn) {
+                if(state.sources[id].isMuted) muteBtn.classList.add('muted');
+                else muteBtn.classList.remove('muted');
+            }
+        }
+
+        // --- DRAG & DROP ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
+
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files), false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if(files.length > 0) {
+                const s = state.sources[state.selectedChannelIdx];
+                s.loadFile(files[0]);
+                showToast(`Loaded to CH_0${state.selectedChannelIdx+1}`);
+            }
+        }
+        
+        // Helper
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.style.position = 'fixed'; t.style.bottom='20px'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+            t.style.background='var(--obsidian-mid)'; t.style.color='var(--blue-accent)'; t.style.padding='10px 20px';
+            t.style.border='1px solid var(--blue-accent)'; t.style.borderRadius='4px'; t.style.fontFamily='var(--font-mono)';
+            t.textContent = msg; document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        // Global Controls
+        document.getElementById('masterVol').addEventListener('input', e => { if(state.masterGain) state.masterGain.gain.value = e.target.value; });
+        document.getElementById('roomSize').addEventListener('input', e => { state.maxDist = parseFloat(e.target.value); state.sources.forEach(s => s.panner.maxDistance = state.maxDist); });
+
+    </script>
 </body>
 </html>
