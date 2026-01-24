@@ -266,12 +266,139 @@ document.querySelectorAll('.nav-link').forEach(link => {
 });
 
 // ============================================
-// TERMINAL CONTACT LOGIC
+// UPGRADED TERMINAL CONTACT LOGIC
 // ============================================
 const terminalInput = document.getElementById('terminalInput');
 const terminalSend = document.getElementById('terminalSend');
 const terminalOutput = document.getElementById('terminalOutput');
 
+// Helper to type out text slowly (like a real computer)
+function typeOutput(text, className = '') {
+    const div = document.createElement('div');
+    div.className = `output-line ${className}`;
+    terminalOutput.appendChild(div);
+    
+    // Typing effect
+    let i = 0;
+    const speed = 20; 
+    function type() {
+        if (i < text.length) {
+            div.textContent += text.charAt(i);
+            i++;
+            // Scroll to bottom
+            terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
+function typeCommand(text) {
+    const div = document.createElement('div');
+    div.className = 'output-line command';
+    div.textContent = `guest@portfolio:~$ ${text}`;
+    terminalOutput.appendChild(div);
+}
+
+function handleSend() {
+    const rawInput = terminalInput.value.trim();
+    const input = rawInput.toLowerCase();
+    
+    if (!rawInput) return;
+
+    typeCommand(rawInput);
+    terminalInput.value = '';
+
+    // 1. CLEAR
+    if (input === 'clear') {
+        setTimeout(() => {
+            terminalOutput.innerHTML = '';
+            addLine('Terminal cleared.', 'success');
+        }, 200);
+        return;
+    }
+
+    // 2. HELP
+    if (input === 'help') {
+        typeOutput("Available Commands: ls, cat [project], whoami, rust, matrix, status, clear, [message]");
+        return;
+    }
+
+    // 3. LS (List Projects)
+    if (input === 'ls' || input === 'll') {
+        typeOutput("DerbyOS-web/  Spatial-Audio/  Quantum-Alg/  CLI-Tools/");
+        return;
+    }
+
+    // 4. CAT (Read Project)
+    if (input.startsWith('cat ')) {
+        const project = input.split(' ')[1];
+        if (project.includes('derby')) {
+            typeOutput("DerbyOS: Monte Carlo race simulation. Language: Vanilla JS.");
+        } else if (project.includes('spatial')) {
+            typeOutput("Spatial-Audio: 3D HRTF Audio Engine. Language: Web Audio API.");
+        } else if (project.includes('quantum')) {
+            typeOutput("Quantum-Alg: Grover's & Shor's Algorithms. Language: Python/Qiskit.");
+        } else {
+            typeOutput(`cat: ${project}: No such file or directory`, 'error');
+        }
+        return;
+    }
+
+    // 5. WHOAMI
+    if (input === 'whoami') {
+        typeOutput("heet");
+        return;
+    }
+
+    // 6. RUST (Easter Egg)
+    if (input === 'rust' || input === 'cargo') {
+        const crab = `
+        🦀
+        // Rust is safe and fast.
+        // Memory safety guaranteed without garbage collection.
+        `;
+        typeOutput(crab, 'success');
+        return;
+    }
+
+    // 7. SUDO (Joke)
+    if (input.startsWith('sudo')) {
+        typeOutput("[sudo] password for guest: ******", 'error');
+        setTimeout(() => typeOutput("guest is not in the sudoers file. This incident will be reported.", 'error'), 1000);
+        return;
+    }
+
+    // 8. MATRIX (Easter Egg)
+    if (input === 'matrix') {
+        typeOutput("Wake up, Neo...", 'success');
+        document.body.style.textShadow = "0 0 5px #0f0";
+        document.body.style.color = "#0f0";
+        return;
+    }
+
+    // 9. STATUS (Quantum Theme)
+    if (input === 'status') {
+        typeOutput("--- SYSTEM DIAGNOSTICS ---");
+        setTimeout(() => typeOutput("UPTIME: 99.99%"), 500);
+        setTimeout(() => typeOutput("QUANTUM COHERENCE: STABLE"), 1000);
+        setTimeout(() => typeOutput("RUST COMPILER: ACTIVE"), 1500);
+        setTimeout(() => typeOutput("MEMORY LEAKS: NONE"), 2000);
+        return;
+    }
+
+    // 10. DEFAULT (Send Email)
+    // If it's not a command, treat it as a message
+    typeOutput('Processing transmission...');
+    setTimeout(() => {
+        typeOutput('Encrypting packet with AES-256...', 'success');
+        setTimeout(() => {
+            window.location.href = `mailto:hitkumarp589@gmail.com?subject=Portfolio Inquiry&body=${encodeURIComponent(rawInput)}`;
+        }, 1500);
+    }, 1000);
+}
+
+// Legacy Helper
 function addLine(text, type = '') {
     const div = document.createElement('div');
     div.className = `output-line ${type}`;
@@ -279,34 +406,6 @@ function addLine(text, type = '') {
     terminalOutput.appendChild(div);
     // Scroll to bottom
     terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
-}
-
-function handleSend() {
-    const msg = terminalInput.value.trim();
-    if (!msg) return;
-
-    // Add user input as command
-    addLine(`guest@portfolio:~$ ${msg}`, 'command');
-    terminalInput.value = '';
-
-    // Simulate processing
-    setTimeout(() => {
-        if (msg.toLowerCase() === 'clear') {
-            terminalOutput.innerHTML = '';
-            addLine('Terminal cleared.', 'success');
-        } else if (msg.toLowerCase() === 'help') {
-            addLine('Available commands: clear, help, [any message to simulate email]');
-        } else {
-            addLine('Processing request...');
-            addLine('Encrypting message...');
-            addLine('Opening mail client...', 'success');
-            
-            // Trigger real email
-            setTimeout(() => {
-                window.location.href = `mailto:hitkumarp589@gmail.com?subject=Portfolio Inquiry&body=${encodeURIComponent(msg)}`;
-            }, 1000);
-        }
-    }, 600);
 }
 
 terminalSend.addEventListener('click', handleSend);
