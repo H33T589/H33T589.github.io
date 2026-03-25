@@ -1,264 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Rust developer and quantum enthusiast — portfolio, projects, and contact."
+    />
     <title>Heet • Rust & Quantum Systems</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Particle Canvas -->
-    <canvas id="particles"></canvas>
+    <canvas id="particles" aria-hidden="true"></canvas>
 
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <div class="loader-text">&gt; INIT_SYSTEM</div>
-        <div class="loader-bar-container">
-            <div class="loader-bar" id="loaderBar"></div>
-        </div>
-        <div class="loader-status" id="loaderStatus">Loading modules...</div>
+    <div class="loader" id="loader" role="status" aria-live="polite" aria-busy="true">
+      <div class="loader-text">&gt; INIT_SYSTEM</div>
+      <div class="loader-bar-container">
+        <div class="loader-bar" id="loaderBar"></div>
+      </div>
+      <div class="loader-status" id="loaderStatus">Loading modules...</div>
     </div>
 
-    <!-- Navigation -->
     <nav class="nav" id="nav">
-        <div class="nav-container">
-            <a href="#hero" class="nav-logo">H33T<span style="color:var(--blue-accent)">.</span></a>
-            <div class="nav-links" id="navLinks">
-                <a href="#about" class="nav-link">./About</a>
-                <a href="#skills" class="nav-link">./Skills</a>
-                <a href="#projects" class="nav-link">./Projects</a>
-                <a href="#contact" class="nav-link">./Contact</a>
-            </div>
-            <div class="menu-toggle" id="menuToggle">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </div>
+      <div class="nav-container">
+        <a href="#hero" class="nav-logo">H33T<span class="nav-logo-dot">.</span></a>
+        <div class="nav-links" id="navLinks">
+          <a href="#about" class="nav-link">./About</a>
+          <a href="#skills" class="nav-link">./Skills</a>
+          <a href="#projects" class="nav-link">./Projects</a>
+          <a href="#contact" class="nav-link">./Contact</a>
         </div>
+        <button
+          type="button"
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="navLinks"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
+    <main id="main">
+      <section class="hero" id="hero">
+        <div class="hero-glow" aria-hidden="true"></div>
         <div class="hero-content">
-            <span class="hero-tag">Rust Developer & Quantum Enthusiast</span>
-            <div class="typewriter-container">
-                <span id="typingText"></span><span class="cursor">_</span>
-            </div>
-            <h1 class="hero-title">
-                Building systems at the<br>
-                <span class="gradient-text">intersection of logic.</span>
-            </h1>
-            <p class="hero-description">
-                Specialized in high-performance computing, memory safety, and quantum algorithms. Turning complex problems into efficient code.
-            </p>
-            <div class="btn-container">
-                <a href="#projects" class="btn btn-primary magnetic-btn">View Projects</a>
-                <a href="#contact" class="btn btn-secondary magnetic-btn">Init Contact</a>
-            </div>
+          <span class="hero-tag" id="heroTag"></span>
+          <div class="typewriter-container">
+            <span id="typingText"></span><span class="cursor" aria-hidden="true">_</span>
+          </div>
+          <h1 class="hero-title">
+            <span id="heroTitleLine1"></span><br />
+            <span class="gradient-text" id="heroTitleGradient"></span>
+          </h1>
+          <p class="hero-description" id="heroDescription"></p>
+          <div class="btn-container">
+            <a href="#projects" class="btn btn-primary magnetic-btn" id="ctaProjects">View Projects</a>
+            <a href="#contact" class="btn btn-secondary magnetic-btn" id="ctaContact">Init Contact</a>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Skills Section -->
-    <section class="container" id="skills">
+      <section class="container about" id="about">
+        <div class="about-layout">
+          <div class="section-header reveal about-intro">
+            <span class="section-label" id="aboutLabel"></span>
+            <h2 class="section-title" id="aboutTitle"></h2>
+            <p class="about-lead reveal" id="aboutLead"></p>
+            <div class="about-body reveal" id="aboutBody"></div>
+          </div>
+          <div class="about-panel reveal" id="aboutStats"></div>
+        </div>
+      </section>
+
+      <section class="container" id="skills">
         <div class="section-header reveal">
-            <span class="section-label">01. CAPABILITIES</span>
-            <h2 class="section-title">Tech Stack</h2>
+          <span class="section-label"></span>
+          <h2 class="section-title"></h2>
         </div>
-        <div class="skills-grid">
-            <div class="skill-card reveal">
-                <div class="skill-category">
-                    <span>🦀</span> Languages
-                </div>
-                <div class="skill-list">
-                    <span class="skill-item">Rust</span>
-                    <span class="skill-item">Python</span>
-                    <span class="skill-item">TypeScript</span>
-                    <span class="skill-item">C++</span>
-                    <span class="skill-item">Solidity</span>
-                </div>
-            </div>
-            <div class="skill-card reveal">
-                <div class="skill-category">
-                    <span>⚛️</span> Quantum & Systems
-                </div>
-                <div class="skill-list">
-                    <span class="skill-item">Qiskit</span>
-                    <span class="skill-item">Linux</span>
-                    <span class="skill-item">Docker</span>
-                    <span class="skill-item">Shell Scripting</span>
-                </div>
-            </div>
-            <div class="skill-card reveal">
-                <div class="skill-category">
-                    <span>🚀</span> Web & Tools
-                </div>
-                <div class="skill-list">
-                    <span class="skill-item">Next.js</span>
-                    <span class="skill-item">React</span>
-                    <span class="skill-item">Node.js</span>
-                    <span class="skill-item">Git</span>
-                    <span class="skill-item">Vim</span>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="skills-grid" id="skillsGrid"></div>
+      </section>
 
-    <!-- Projects Section -->
-    <section class="container" id="projects">
+      <section class="container" id="projects">
         <div class="section-header reveal">
-            <span class="section-label">02. REPOSITORY</span>
-            <h2 class="section-title">Featured Projects</h2>
+          <span class="section-label"></span>
+          <h2 class="section-title"></h2>
         </div>
-        <div class="projects-grid">
-            
-           <!-- Project 1: UPDATED SPATIAL AUDIO -->
-           <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
-                <div class="project-content">
-                    <div class="project-icon">🎵</div>
-                    <h3 class="project-title">Spatial Audio Engine</h3>
-                    <p class="project-desc">
-                        Real-time Web Audio API visualization. Drag sources to position sound in 3D space. 
-                        Features HRTF processing, procedural presets, and an interactive particle-based UI.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Web Audio API</span>
-                        <span class="tech-pill">JavaScript</span>
-                        <span class="tech-pill">Canvas</span>
-                    </div>
-                    
-                    <!-- Styled exactly like Project 3 -->
-                    <a href="https://h33t589.github.io/spatial-audio/" target="_blank" class="project-link">
-                        Launch App <span>&rarr;</span>
-                    </a>
-                    <a href="https://github.com/H33T589/H33T589.github.io/tree/main/spatial-audio" target="_blank" class="project-link" style="font-size: 0.8rem; margin-top: 0.5rem;">
-                        View Source <span>&#128187;</span>
-                    </a>
-                </div>
-            </div>
+        <div class="projects-grid" id="projectsGrid"></div>
+      </section>
 
-            <!-- Project 2 -->
-            <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
-                <div class="project-content">
-                    <div class="project-icon">⚛️</div>
-                    <h3 class="project-title">Quantum Algorithms</h3>
-                    <p class="project-desc">Implementation of Grover's and Shor's algorithms using Qiskit. Includes visualization of quantum circuit states.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Python</span>
-                        <span class="tech-pill">Qiskit</span>
-                        <span class="tech-pill">Math</span>
-                    </div>
-                    <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                        View Code <span>&rarr;</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Project 3: UPDATED DERBYOS WEB -->
-            <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
-                <div class="project-content">
-                    <div class="project-icon">🏇</div>
-                    <h3 class="project-title">DerbyOS Web</h3>
-                    <p class="project-desc">High-performance Monte Carlo race simulation. Features real-time stochastic logic, a reactive glassmorphism UI, and a functional betting state system.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Vanilla JS</span>
-                        <span class="tech-pill">HTML/CSS</span>
-                        <span class="tech-pill">Simulation</span>
-                    </div>
-                    <!-- Link to Live App -->
-                    <a href="https://h33t589.github.io/DerbyOS-web/" target="_blank" class="project-link">
-                        Launch App <span>&rarr;</span>
-                    </a>
-                    <!-- Link to Source Code -->
-                    <a href="https://github.com/H33T589/DerbyOS-web" target="_blank" class="project-link" style="font-size: 0.8rem; margin-top: 0.5rem;">
-                        View Source <span>&#128187;</span>
-                    </a>
-                </div>
-            </div>
-
-             <!-- Project 4 -->
-             <div class="project-card reveal" onmousemove="handleCardHover(event, this)" onmouseleave="handleCardLeave(this)">
-                <div class="project-content">
-                    <div class="project-icon">🔧</div>
-                    <h3 class="project-title">Rust CLI Tools</h3>
-                    <p class="project-desc">A suite of blazingly fast command-line utilities replacing standard GNU coreutils for specific workflows.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Rust</span>
-                        <span class="tech-pill">Clap</span>
-                        <span class="tech-pill">Terminal</span>
-                    </div>
-                    <a href="https://github.com/H33T589" target="_blank" class="project-link">
-                        View Code <span>&rarr;</span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Contact Section (Terminal) -->
-    <section class="container" id="contact">
+      <section class="container" id="contact">
         <div class="section-header reveal">
-            <span class="section-label">03. COMMUNICATION</span>
-            <h2 class="section-title">Secure Channel</h2>
+          <span class="section-label"></span>
+          <h2 class="section-title"></h2>
         </div>
-        
+
         <div class="contact-wrapper reveal">
-            <div class="terminal-header">
-                <div class="terminal-dot dot-red"></div>
-                <div class="terminal-dot dot-yellow"></div>
-                <div class="terminal-dot dot-green"></div>
-                <div class="terminal-title">guest@heet-portfolio: ~/contact</div>
+          <div class="terminal-header">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <div class="terminal-title">guest@heet-portfolio: ~/contact</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-output" id="terminalOutput"></div>
+            <div class="terminal-input-area">
+              <span class="prompt">guest@portfolio:~$</span>
+              <input
+                type="text"
+                class="terminal-input"
+                id="terminalInput"
+                placeholder="Type your message here..."
+                autocomplete="off"
+                aria-label="Terminal input"
+              />
+              <button type="button" class="send-btn" id="terminalSend">SEND</button>
             </div>
-            <div class="terminal-body">
-                <div class="terminal-output" id="terminalOutput">
-                    <span class="output-line">Welcome to Heet's secure terminal.</span>
-                    <span class="output-line">Establishing connection...</span>
-                    <span class="output-line success">Connection established.</span>
-                    <br>
-                    <span class="output-line">Type your message below to send a transmission.</span>
-                    <span class="output-line" style="color: var(--text-muted)">Available commands: just type normally and hit Enter.</span>
-                </div>
-                <div class="terminal-input-area">
-                    <span class="prompt">guest@portfolio:~$</span>
-                    <input type="text" class="terminal-input" id="terminalInput" placeholder="Type your message here..." autocomplete="off">
-                    <button class="send-btn" id="terminalSend">SEND</button>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="container footer-content">
-            <div class="social-links">
-                <!-- Gmail / Email Icon -->
-                <a href="mailto:hitkumarp589@gmail.com" class="social-link" title="Email">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                </a>
-                
-                <!-- GitHub Icon -->
-                <a href="https://github.com/H33T589" target="_blank" class="social-link" title="GitHub">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                </a>
-
-                <!-- LinkedIn Icon -->
-                <a href="https://www.linkedin.com/in/heet--patel" target="_blank" class="social-link" title="LinkedIn">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                </a>
-            </div>
-            <p class="copyright">&copy; <span id="year"></span> Heet Patel. System Status: <span style="color:var(--blue-accent)">ONLINE</span></p>
+      <div class="container footer-content">
+        <div class="social-links">
+          <a href="#" class="social-link" title="Email" id="socialEmail">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+              />
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="GitHub" id="socialGithub" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="LinkedIn" id="socialLinkedin" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
         </div>
+        <p class="copyright">
+          &copy; <span id="year"></span> Heet Patel. System Status:
+          <span class="status-online">ONLINE</span>
+        </p>
+      </div>
     </footer>
 
-    <script src="script.js"></script>
-</body>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
