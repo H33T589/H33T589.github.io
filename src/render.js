@@ -10,6 +10,11 @@ export function renderSite(site) {
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.setAttribute('content', site.meta.description);
 
+  const loaderText = document.querySelector('.loader-text');
+  if (loaderText && site.loader?.title) loaderText.textContent = site.loader.title;
+  const loaderStatus = document.getElementById('loaderStatus');
+  if (loaderStatus && site.loader?.initialStatus) loaderStatus.textContent = site.loader.initialStatus;
+
   const { hero } = site;
   const tagEl = document.getElementById('heroTag');
   if (tagEl) tagEl.textContent = hero.tag;
@@ -29,6 +34,18 @@ export function renderSite(site) {
     ctaC.href = hero.ctaContact.href;
     ctaC.textContent = hero.ctaContact.label;
   }
+
+  site.photos?.hero?.forEach((photo, index) => {
+    const image = document.getElementById(`heroPhoto${index}`);
+    if (image) {
+      image.src = photo.src;
+      image.alt = photo.alt;
+    }
+    const caption = document.getElementById(`heroPhoto${index}Caption`);
+    if (caption) caption.textContent = photo.caption;
+    const detail = document.getElementById(`heroPhoto${index}Detail`);
+    if (detail) detail.textContent = photo.detail;
+  });
 
   const about = site.about;
   const aboutLabel = document.getElementById('aboutLabel');
@@ -109,6 +126,19 @@ export function renderSite(site) {
       .join('');
   }
 
+  const githubLabel = document.getElementById('githubLabel');
+  const githubSectionEl = document.getElementById('github');
+  if (githubSectionEl) {
+    githubSectionEl.hidden = site.githubSection.enabled === false;
+  }
+  if (githubLabel) githubLabel.textContent = site.githubSection.label;
+  const githubTitle = document.getElementById('githubTitle');
+  if (githubTitle) githubTitle.textContent = site.githubSection.title;
+  const githubIntro = document.getElementById('githubIntro');
+  if (githubIntro) githubIntro.textContent = site.githubSection.intro;
+  const githubNote = document.getElementById('githubNote');
+  if (githubNote) githubNote.textContent = site.githubSection.note;
+
   const contactSection = document.getElementById('contact');
   if (contactSection) {
     const h = contactSection.querySelector('.section-header');
@@ -118,17 +148,16 @@ export function renderSite(site) {
     }
   }
 
-  const terminalOutput = document.getElementById('terminalOutput');
-  if (terminalOutput && site.terminal?.welcome) {
-    terminalOutput.innerHTML = site.terminal.welcome
-      .map((line, idx) => {
-        if (line === '') return '<br>';
-        const muted =
-          idx === site.terminal.welcome.length - 1
-            ? ' style="color: var(--text-muted)"'
-            : '';
-        const success = line.includes('established') ? ' success' : '';
-        return `<span class="output-line${success}"${muted}>${esc(line)}</span>`;
+  const contactDescription = document.getElementById('contactDescription');
+  if (contactDescription) contactDescription.textContent = site.contact.description;
+
+  const contactActions = document.getElementById('contactActions');
+  if (contactActions) {
+    contactActions.innerHTML = site.contact.actions
+      .map((action, index) => {
+        const isPrimary = index === 0 ? ' btn-primary' : ' btn-secondary';
+        const target = action.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+        return `<a href="${esc(action.href)}" class="btn${isPrimary}"${target}>${esc(action.label)}</a>`;
       })
       .join('');
   }

@@ -8,6 +8,9 @@ export function initParticles() {
 
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
+  const styles = getComputedStyle(document.documentElement);
+  const particleFillRgb = styles.getPropertyValue('--particle-fill-rgb').trim() || '47, 108, 99';
+  const particleLineRgb = styles.getPropertyValue('--particle-line-rgb').trim() || '111, 148, 113';
 
   let width;
   let height;
@@ -32,13 +35,12 @@ export function initParticles() {
       this.vx = (Math.random() - 0.5) * 0.5;
       this.vy = (Math.random() - 0.5) * 0.5;
       this.size = Math.random() * 2 + 1;
-      this.baseColor = 'rgba(59, 130, 246, ';
     }
 
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = this.baseColor + '0.5)';
+      ctx.fillStyle = `rgba(${particleFillRgb}, 0.42)`;
       ctx.fill();
     }
 
@@ -51,7 +53,7 @@ export function initParticles() {
         const dy = mouse.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < mouse.radius) {
+        if (distance > 0 && distance < mouse.radius) {
           const forceDirectionX = dx / distance;
           const forceDirectionY = dy / distance;
           const force = (mouse.radius - distance) / mouse.radius;
@@ -87,7 +89,7 @@ export function initParticles() {
 
         if (distance < (width / 7) * (height / 7)) {
           opacityValue = 1 - distance / 20000;
-          ctx.strokeStyle = `rgba(34, 211, 238,${opacityValue * 0.15})`;
+          ctx.strokeStyle = `rgba(${particleLineRgb}, ${opacityValue * 0.18})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(particles[a].x, particles[a].y);

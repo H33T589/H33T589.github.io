@@ -2,26 +2,26 @@ function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function initLoader() {
+export function initLoader(site) {
   const bar = document.getElementById('loaderBar');
   const status = document.getElementById('loaderStatus');
   const loader = document.getElementById('loader');
   if (!bar || !status || !loader) return;
 
+  const messages = site?.loader?.messages ?? [
+    'Loading portfolio...',
+    'Preparing content...',
+    'Almost ready...',
+    'Ready.',
+  ];
+
   if (prefersReducedMotion()) {
     bar.style.width = '100%';
-    status.textContent = 'System Ready.';
+    status.textContent = messages[messages.length - 1] ?? 'Ready.';
     loader.classList.add('loaded');
     loader.setAttribute('aria-busy', 'false');
     return;
   }
-
-  const messages = [
-    'Loading core modules...',
-    'Initializing quantum states...',
-    'Optimizing render pipeline...',
-    'System Ready.',
-  ];
 
   let progress = 0;
   let msgIndex = 0;
