@@ -105,8 +105,9 @@ export function renderSite(site) {
     projectsGrid.innerHTML = site.projects
       .map(
         (p) => `
-        <article class="project-card reveal" data-project-card>
+        <article class="project-card reveal${p.featured ? ' project-card--featured' : ''}" data-project-card>
           <div class="project-content">
+            ${p.featured ? `<span class="project-badge">${esc(p.featuredLabel || 'Featured')}</span>` : ''}
             <div class="project-icon">${p.icon}</div>
             <h3 class="project-title">${esc(p.title)}</h3>
             <p class="project-desc">${esc(p.description)}</p>

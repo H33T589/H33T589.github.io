@@ -699,6 +699,22 @@ body::before {
   box-shadow: var(--shadow-card);
 }
 
+.project-card--featured {
+  background:
+    radial-gradient(circle at top right, rgba(111, 148, 113, 0.18), transparent 30%),
+    linear-gradient(180deg, rgba(249, 252, 246, 0.96), rgba(236, 244, 233, 0.98));
+  border-color: rgba(47, 108, 99, 0.22);
+  box-shadow: 0 24px 54px rgba(47, 108, 99, 0.12);
+}
+
+.project-card--featured::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-soft));
+}
+
 .project-card::before {
   content: '';
   position: absolute;
@@ -734,6 +750,21 @@ body::before {
   flex-direction: column;
   height: 100%;
   padding: 1.6rem;
+}
+
+.project-badge {
+  align-self: flex-start;
+  margin-bottom: 0.95rem;
+  padding: 0.36rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(47, 108, 99, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(47, 108, 99, 0.18);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .project-icon {

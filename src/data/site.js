@@ -3,26 +3,26 @@ export const site = {
   meta: {
     title: 'Heet Patel • Cognitive Systems & AI',
     description:
-      'Portfolio focused on AI and cognitive systems, with ongoing interest in Rust, systems work, and quantum computing.',
+      'Student portfolio focused on AI, cognitive systems, computational models of learning, and quantum computing.',
   },
 
   loader: {
     title: 'HEET / SFU / AI',
     initialStatus: 'Loading portfolio...',
     messages: [
-      'Loading notes on intelligence...',
+      'Loading notes on learning...',
       'Mapping cognition to computation...',
-      'Opening current work...',
+      'Opening current experiments...',
       'Ready.',
     ],
   },
 
   hero: {
-    tag: 'SFU student exploring AI, cognitive systems, Rust, and quantum computing',
+    tag: 'SFU student exploring AI, cognitive systems, and computational models of learning',
     titleLine1: 'Trying to understand how',
     titleGradient: 'intelligence gets built.',
     description:
-      'This portfolio centers the topics I want to keep building toward: AI, neural networks, cognition, and computational models of learning, with Rust and quantum computing remaining two long-term bets I take seriously.',
+      'This site tracks the direction I want to grow into: AI, neural networks, perception, language, and computational approaches to cognition. Quantum computing remains a long-term bet, and I still like building tools and experiments along the way.',
     ctaProjects: { href: '#projects', label: 'See Projects' },
     ctaContact: { href: '#contact', label: 'Get in Touch' },
   },
@@ -54,28 +54,28 @@ export const site = {
     label: '01. NOW',
     title: 'What I Am Focused On',
     lead:
-      'I am most interested in cognitive systems, AI, and questions about learning, perception, language, and intelligence. At the same time, Rust and systems work still matter to me, and quantum computing is a field I remain deeply optimistic about.',
+      'I am most interested in AI and cognitive systems, especially questions about learning, perception, language, and how computational systems can model parts of intelligence.',
     paragraphs: [
-      'I am still early in that path, so I am focused on building real foundations rather than overstating expertise. What feels honest is saying that I am drawn to neural networks, machine learning, human-centered AI, and the way computational systems can model parts of cognition.',
-      'The goal for this site is to feel like a strong student portfolio shaped by curiosity, technical ambition, and a few clear long-term interests. For me, that means AI at the center, with quantum computing and systems work still clearly part of the picture.',
+      'I am still early in that path, so the priority is building real foundations rather than overstating expertise. What feels most honest is saying that I am drawn to neural networks, machine learning, model behavior, and the broader question of how minds and models learn.',
+      'The portfolio is meant to read like a thoughtful student record of that direction: experimental, technically ambitious, and clear about what sits at the center. For me, that means AI first, cognition close behind it, and quantum computing as an important long-term interest.',
     ],
     stats: [
       { label: 'Center Of Gravity', value: 'AI · Cognition · Learning' },
-      { label: 'Other Bets', value: 'Quantum computing' },
-      { label: 'Interested In', value: 'Neural nets · HCI · intelligent systems' },
+      { label: 'Current Questions', value: 'Perception · Language · Model behavior' },
+      { label: 'Long-Term Bet', value: 'Quantum computing' },
     ],
   },
 
   skillsSection: {
     label: '02. INTERESTS',
-    title: 'Areas I Want To Grow In',
+    title: 'Areas I Am Exploring',
   },
 
   skills: [
     {
       category: 'AI Questions',
       icon: '01',
-      items: ['Neural Networks', 'Machine Learning', 'Model Behavior', 'AI Evaluation'],
+      items: ['Neural Networks', 'Machine Learning', 'Representation Learning', 'AI Evaluation'],
     },
     {
       category: 'Cognitive Systems Lens',
@@ -83,20 +83,20 @@ export const site = {
       items: ['Perception', 'Attention', 'Memory', 'Language'],
     },
     {
-      category: 'Current Toolkit',
+      category: 'Current Practice',
       icon: '03',
-      items: ['JavaScript', 'Python', 'Web Experiments', 'Data Visualization', 'Git'],
+      items: ['Python', 'JavaScript', 'Small AI Experiments', 'Data Visualization'],
     },
     {
-      category: 'Long-Term Bets',
+      category: 'Long-Term Direction',
       icon: '04',
-      items: ['Quantum Computing', 'Rust', 'Systems Thinking', 'Interactive Research Tools'],
+      items: ['Quantum Computing', 'Cognitive Modeling', 'Research Tools', 'Human-Centered AI'],
     },
   ],
 
   projectsSection: {
     label: '03. PROJECTS',
-    title: 'Current Projects',
+    title: 'Selected Projects & Current Work',
   },
 
   githubSection: {
@@ -113,11 +113,28 @@ export const site = {
 
   projects: [
     {
+      id: 'situate-vancouver',
+      icon: '🗺️',
+      title: 'Situate Vancouver',
+      featured: true,
+      featuredLabel: '★ Active Now',
+      description:
+        'An active project I am contributing to right now: a map-first city intelligence workspace for Metro Vancouver built across React, MapLibre, Django, and FastAPI, with work spanning mobility lenses, transit layers, richer map interaction, and frontend engineering foundations.',
+      tech: ['React', 'MapLibre', 'Django', 'FastAPI'],
+      links: [
+        {
+          href: 'https://github.com/Gabriel-Dalton/Situate-Vancouver',
+          label: 'View Project',
+          external: true,
+        },
+      ],
+    },
+    {
       id: 'spatial-audio',
       icon: '🎵',
       title: 'Spatial Audio Engine',
       description:
-        'Real-time Web Audio API visualization. Drag sources to position sound in 3D space. Features HRTF processing, procedural presets, and an interactive particle-based UI.',
+        'An interactive Web Audio experiment around spatial perception. It lets you position sources in 3D space, hear the scene shift in real time, and make a perceptual idea concrete in the browser.',
       tech: ['Web Audio API', 'JavaScript', 'Canvas'],
       links: [
         { href: '/spatial-audio/', label: 'Launch App', external: true },
@@ -134,7 +151,7 @@ export const site = {
       icon: '⚛️',
       title: 'Quantum Algorithms',
       description:
-        "Implementation of Grover's and Shor's algorithms using Qiskit. Includes visualization of quantum circuit states.",
+        "Implementations of Grover's and Shor's algorithms in Qiskit, built as part of my long-term interest in quantum computing and computational models beyond classical systems.",
       tech: ['Python', 'Qiskit', 'Math'],
       links: [{ href: 'https://github.com/H33T589', label: 'View Code', external: true }],
     },
@@ -143,7 +160,7 @@ export const site = {
       icon: '🏇',
       title: 'DerbyOS Web',
       description:
-        'High-performance Monte Carlo race simulation. Features real-time stochastic logic, a reactive glassmorphism UI, and a functional betting state system.',
+        'A simulation-heavy web project built around Monte Carlo race modeling, stochastic logic, and interactive state design. It is less directly AI-focused, but it reflects how I like learning through computational experiments.',
       tech: ['Vanilla JS', 'HTML/CSS', 'Simulation'],
       links: [
         { href: 'https://h33t589.github.io/DerbyOS-web/', label: 'Launch App', external: true },
@@ -158,26 +175,26 @@ export const site = {
     {
       id: 'rust-cli',
       icon: '🔧',
-      title: 'Rust CLI Tools',
+      title: 'Rust Tooling Experiments',
       description:
-        'A suite of blazingly fast command-line utilities replacing standard GNU coreutils for specific workflows.',
+        'A small set of Rust command-line tools and performance experiments. Tooling work is no longer the center of this site, but it still captures part of how I learn by building.',
       tech: ['Rust', 'Clap', 'Terminal'],
       links: [{ href: 'https://github.com/H33T589', label: 'View Code', external: true }],
     },
   ],
 
   typewriterPhrases: [
-    'thinking about how models learn',
-    'exploring AI through small experiments',
-    'connecting cognition with computation',
-    'trying to make abstract ideas concrete',
+    'thinking about learning and representation',
+    'exploring perception through computation',
+    'building small AI and interface experiments',
+    'trying to make abstract questions concrete',
   ],
 
   contact: {
     label: '05. CONTACT',
     title: 'Say Hello',
     description:
-      'If you want to reach out, I would keep this simple: email for direct contact, GitHub for code, LinkedIn for the more standard professional channel.',
+      'If you want to reach out, I would keep it simple: email for direct contact, GitHub for code, and LinkedIn for the standard professional channel.',
     actions: [
       { href: 'mailto:hitkumarp589@gmail.com', label: 'Email Me' },
       { href: 'https://github.com/H33T589', label: 'GitHub', external: true },
