@@ -7,11 +7,11 @@
       name="description"
       content="Student portfolio focused on AI, cognitive systems, computational models of learning, and quantum computing."
     />
-    <title>Heet Patel • Cognitive Systems & AI</title>
+    <title>Heet Patel • AI, Cognition, and Learning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -21,129 +21,163 @@
     <canvas id="particles" aria-hidden="true"></canvas>
 
     <div class="loader" id="loader" role="status" aria-live="polite" aria-busy="true">
-      <div class="loader-text">HEET / SFU / AI</div>
+      <div class="loader-text">HEET / AI / NOTES</div>
       <div class="loader-bar-container">
         <div class="loader-bar" id="loaderBar"></div>
       </div>
-      <div class="loader-status" id="loaderStatus">Loading portfolio...</div>
+      <div class="loader-status" id="loaderStatus">Preparing portfolio...</div>
     </div>
 
-    <nav class="nav" id="nav">
-      <div class="nav-container">
-        <a href="#hero" class="nav-logo">H33T<span class="nav-logo-dot">.</span></a>
-        <div class="nav-links" id="navLinks">
-          <a href="#about" class="nav-link">About</a>
-          <a href="#skills" class="nav-link">Interests</a>
-          <a href="#projects" class="nav-link">Projects</a>
-          <a href="#contact" class="nav-link">Contact</a>
-        </div>
-        <button
-          type="button"
-          class="menu-toggle"
-          id="menuToggle"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="navLinks"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+    <header class="topbar nav" id="nav">
+      <div class="topbar-brand">
+        <a href="#hero" class="brand-mark">Heet Patel</a>
+        <span class="brand-meta">AI / cognition / learning</span>
       </div>
-    </nav>
 
-    <main id="main">
-      <section class="hero" id="hero">
-        <div class="hero-glow" aria-hidden="true"></div>
-        <div class="hero-shell">
-          <div class="hero-content">
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a href="#hero" class="nav-link">Overview</a>
+        <a href="#skills" class="nav-link">Research Lanes</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="navLinks"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <aside class="side-rail" aria-label="Section overview">
+      <div class="rail-intro">
+        <span class="rail-label">Learning Ledger</span>
+        <span class="rail-version">Edition 2026.1</span>
+      </div>
+
+      <nav class="rail-nav">
+        <div class="rail-indicator" id="railIndicator" aria-hidden="true"></div>
+        <a href="#hero" class="rail-link rail-link--active">Overview</a>
+        <a href="#skills" class="rail-link">Research Lanes</a>
+        <a href="#projects" class="rail-link">Project Board</a>
+        <a href="#contact" class="rail-link">Contact</a>
+      </nav>
+
+      <div class="rail-footer">
+        <a class="rail-action" href="mailto:hitkumarp589@gmail.com">Start a conversation</a>
+      </div>
+    </aside>
+
+    <main id="main" class="app-shell">
+      <section class="hero-panel" id="hero">
+        <div class="hero-grid">
+          <div class="hero-visual reveal" id="heroVisual">
+            <figure class="portrait-card portrait-card--primary">
+              <div class="portrait-frame">
+                <img class="portrait-image" id="heroPhoto0" alt="" loading="eager" />
+              </div>
+              <figcaption class="portrait-meta">
+                <span class="portrait-caption" id="heroPhoto0Caption"></span>
+                <span class="portrait-detail" id="heroPhoto0Detail"></span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="hero-copy">
             <span class="hero-tag" id="heroTag"></span>
+
+            <div class="hero-meta-row">
+              <span class="hero-status" id="heroStatus"></span>
+              <span class="hero-code" id="heroCode"></span>
+            </div>
+
             <div class="typewriter-container">
               <span id="typingText"></span><span class="cursor" aria-hidden="true">_</span>
             </div>
+
             <h1 class="hero-title">
-              <span id="heroTitleLine1"></span><br />
-              <span class="gradient-text" id="heroTitleGradient"></span>
+              <span id="heroTitleLine1"></span>
+              <span class="hero-title-accent" id="heroTitleGradient"></span>
             </h1>
+
             <p class="hero-description" id="heroDescription"></p>
-            <div class="btn-container">
-              <a href="#projects" class="btn btn-primary magnetic-btn" id="ctaProjects">View Projects</a>
-              <a href="#contact" class="btn btn-secondary magnetic-btn" id="ctaContact">Get in Touch</a>
+
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-primary magnetic-btn" id="ctaProjects">See Projects</a>
+              <a href="#contact" class="btn btn-secondary" id="ctaContact">Get in Touch</a>
             </div>
-          </div>
 
-          <div class="hero-visual reveal" id="heroVisual">
-            <figure class="photo-card photo-card--primary">
-              <div class="photo-frame">
-                <img class="photo-image" id="heroPhoto0" alt="" loading="eager" />
-              </div>
-              <figcaption class="photo-meta">
-                <span class="photo-caption" id="heroPhoto0Caption"></span>
-                <span class="photo-detail" id="heroPhoto0Detail"></span>
-              </figcaption>
-            </figure>
-
-            <div class="photo-stack">
-              <figure class="photo-card photo-card--secondary">
-                <div class="photo-frame photo-frame--tilted">
-                  <img class="photo-image" id="heroPhoto1" alt="" loading="lazy" />
-                </div>
-                <figcaption class="photo-meta">
-                  <span class="photo-caption" id="heroPhoto1Caption"></span>
-                  <span class="photo-detail" id="heroPhoto1Detail"></span>
-                </figcaption>
-              </figure>
-
-              <figure class="photo-card photo-card--accent">
-                <div class="photo-frame photo-frame--soft">
-                  <img class="photo-image" id="heroPhoto2" alt="" loading="lazy" />
-                </div>
-                <figcaption class="photo-meta">
-                  <span class="photo-caption" id="heroPhoto2Caption"></span>
-                  <span class="photo-detail" id="heroPhoto2Detail"></span>
-                </figcaption>
-              </figure>
-            </div>
+            <div class="hero-metrics" id="heroMetrics"></div>
           </div>
         </div>
       </section>
 
-      <section class="container about" id="about">
-        <div class="about-layout">
-          <div class="section-header reveal about-intro">
+      <section class="dashboard-grid">
+        <article class="field-log reveal" aria-labelledby="fieldLogTitle">
+          <div class="panel-head">
+            <div>
+              <span class="panel-eyebrow" id="fieldLogSubtitle"></span>
+              <h2 class="panel-title" id="fieldLogTitle"></h2>
+            </div>
+            <span class="panel-time" id="fieldLogClock">Local time</span>
+          </div>
+          <div class="field-log-entries" id="fieldLogEntries"></div>
+        </article>
+
+        <div class="dashboard-stack">
+          <article class="info-card reveal" id="about">
             <span class="section-label" id="aboutLabel"></span>
             <h2 class="section-title" id="aboutTitle"></h2>
-            <p class="about-lead reveal" id="aboutLead"></p>
-            <div class="about-body reveal" id="aboutBody"></div>
-          </div>
-          <div class="about-panel reveal" id="aboutStats"></div>
+            <p class="about-lead" id="aboutLead"></p>
+            <div class="about-body" id="aboutBody"></div>
+          </article>
+
+          <article class="status-card reveal">
+            <div class="panel-head panel-head--compact">
+              <h2 class="panel-title panel-title--small" id="statusTitle"></h2>
+            </div>
+            <div class="status-list" id="statusList"></div>
+          </article>
+
+          <article class="active-node reveal">
+            <span class="panel-eyebrow" id="activeNodeLabel"></span>
+            <h2 class="active-node-title" id="activeNodeTitle"></h2>
+            <p class="active-node-description" id="activeNodeDescription"></p>
+            <a href="#projects" class="btn btn-dark" id="activeNodeAction">Open Project Board</a>
+          </article>
         </div>
       </section>
 
-      <section class="container" id="skills">
-        <div class="section-header reveal">
-          <span class="section-label"></span>
-          <h2 class="section-title"></h2>
+      <section class="content-section" id="skills">
+        <div class="section-head reveal">
+          <span class="section-label" id="skillsLabel"></span>
+          <h2 class="section-title" id="skillsTitle"></h2>
         </div>
         <div class="skills-grid" id="skillsGrid"></div>
       </section>
 
-      <section class="container" id="projects">
-        <div class="section-header reveal">
-          <span class="section-label"></span>
-          <h2 class="section-title"></h2>
+      <section class="content-section" id="projects">
+        <div class="section-head reveal">
+          <span class="section-label" id="projectsLabel"></span>
+          <h2 class="section-title" id="projectsTitle"></h2>
+          <p class="section-intro" id="projectsIntro"></p>
         </div>
         <div class="projects-grid" id="projectsGrid"></div>
       </section>
 
-      <section class="container" id="github">
-        <div class="section-header reveal">
+      <section class="content-section" id="github" hidden>
+        <div class="section-head reveal">
           <span class="section-label" id="githubLabel"></span>
           <h2 class="section-title" id="githubTitle"></h2>
-          <p class="section-intro reveal" id="githubIntro"></p>
+          <p class="section-intro" id="githubIntro"></p>
         </div>
+
         <div class="github-activity reveal">
           <div class="github-headline" id="githubHeadline"></div>
           <div class="github-summary" id="githubSummary"></div>
@@ -158,7 +192,13 @@
               <div class="heatmap-grid" id="githubHeatmap" aria-label="GitHub contribution heatmap"></div>
             </div>
             <div class="heatmap-footer">
-              <a class="heatmap-link" id="githubProfileLink" href="https://github.com/H33T589" target="_blank" rel="noopener noreferrer">
+              <a
+                class="heatmap-link"
+                id="githubProfileLink"
+                href="https://github.com/H33T589"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 View GitHub profile
               </a>
               <div class="heatmap-legend" aria-hidden="true">
@@ -181,52 +221,38 @@
         </div>
       </section>
 
-      <section class="container" id="contact">
-        <div class="section-header reveal">
-          <span class="section-label"></span>
-          <h2 class="section-title"></h2>
+      <section class="content-section" id="contact">
+        <div class="section-head reveal">
+          <span class="section-label" id="contactLabel"></span>
+          <h2 class="section-title" id="contactTitle"></h2>
         </div>
 
-        <div class="contact-card reveal">
+        <article class="contact-card reveal">
           <p class="contact-copy" id="contactDescription"></p>
           <div class="contact-actions" id="contactActions"></div>
           <div class="contact-meta">
-            <span>Email: <a href="mailto:hitkumarp589@gmail.com" id="contactEmail">hitkumarp589@gmail.com</a></span>
-            <span>Based in British Columbia</span>
+            <span>Email: <a href="mailto:hitkumarp589@gmail.com">hitkumarp589@gmail.com</a></span>
+            <span id="contactLocation"></span>
           </div>
-        </div>
+        </article>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="container footer-content">
-        <div class="social-links">
-          <a href="#" class="social-link" title="Email" id="socialEmail">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path
-                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
-              />
-            </svg>
-          </a>
-          <a href="#" class="social-link" title="GitHub" id="socialGithub" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-              />
-            </svg>
-          </a>
-          <a href="#" class="social-link" title="LinkedIn" id="socialLinkedin" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path
-                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-              />
-            </svg>
-          </a>
-        </div>
-        <p class="copyright">
-          &copy; <span id="year"></span> Built with love by Heet.
-        </p>
-        <p class="footer-signature" aria-label="Signature">Hitkumar Patel</p>
+    <footer class="site-footer">
+      <div class="footer-left">
+        <p class="footer-note" id="footerNote"></p>
+      </div>
+
+      <div class="footer-center">
+        <a href="#" class="social-link" title="Email" id="socialEmail">Email</a>
+        <a href="#" class="social-link" title="GitHub" id="socialGithub" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="#" class="social-link" title="LinkedIn" id="socialLinkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+
+      <div class="footer-right">
+        <span id="footerStatus"></span>
+        <span id="footerVersion"></span>
+        <span>&copy; <span id="year"></span></span>
       </div>
     </footer>
 
