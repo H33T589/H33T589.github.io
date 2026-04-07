@@ -1,51 +1,84 @@
 /** Single source of truth for portfolio copy and links */
 export const site = {
   meta: {
-    title: 'Heet Patel • Cognitive Systems & AI',
+    title: 'Heet Patel • AI, Cognition, and Learning',
     description:
       'Student portfolio focused on AI, cognitive systems, computational models of learning, and quantum computing.',
   },
 
   loader: {
-    title: 'HEET / SFU / AI',
-    initialStatus: 'Loading portfolio...',
+    title: 'HEET / AI / NOTES',
+    initialStatus: 'Preparing portfolio...',
     messages: [
-      'Loading notes on learning...',
-      'Mapping cognition to computation...',
-      'Opening current experiments...',
+      'Loading current direction...',
+      'Indexing projects and experiments...',
+      'Laying out field notes...',
       'Ready.',
     ],
   },
 
   hero: {
     tag: 'SFU student exploring AI, cognitive systems, and computational models of learning',
-    titleLine1: 'Trying to understand how',
-    titleGradient: 'intelligence gets built.',
+    status: 'Spring 2026',
+    code: 'Learning ledger',
+    titleLine1: 'Heet Patel',
+    titleGradient: 'AI, cognition, and computational learning.',
     description:
-      'This site tracks the direction I want to grow into: AI, neural networks, perception, language, and computational approaches to cognition. Quantum computing remains a long-term bet, and I still like building tools and experiments along the way.',
+      'I am most interested in neural networks, perception, language, and the broader question of how intelligent systems learn. This portfolio is a student record of that direction: honest, experimental, and still early, with quantum computing staying visible as a long-term bet.',
     ctaProjects: { href: '#projects', label: 'See Projects' },
     ctaContact: { href: '#contact', label: 'Get in Touch' },
+    metrics: [
+      { label: 'Center of gravity', value: 'AI + cognitive systems' },
+      { label: 'Current questions', value: 'Learning, language, perception' },
+      { label: 'Building mode', value: 'Small experiments, clear foundations' },
+      { label: 'Long-term bet', value: 'Quantum computing' },
+    ],
   },
 
   photos: {
     hero: [
       {
-        src: '/images/img2.webp',
-        alt: 'Portrait of Heet Patel outdoors.',
-        caption: 'Field notes',
-        detail: 'outdoors',
-      },
-      {
         src: '/images/img1.webp',
-        alt: 'Portrait of Heet Patel in a casual student setting.',
-        caption: 'Student mode',
-        detail: 'candid',
+        alt: 'Mirror selfie of Heet Patel wearing a hoodie.',
+        caption: 'Between Lectures',
+        detail: 'student portrait',
+      },
+    ],
+  },
+
+  fieldLog: {
+    title: 'Field log',
+    subtitle: 'Current notes',
+    entries: [
+      {
+        time: '08:10',
+        label: 'FOCUS',
+        message:
+          'The site now frames me as a student working toward AI and cognitive systems, not as a generic builder persona.',
       },
       {
-        src: '/images/img3.webp',
-        alt: 'Close portrait of Heet Patel.',
-        caption: 'Off-campus',
-        detail: 'snapshot',
+        time: '09:25',
+        label: 'READ',
+        message:
+          'Most of my curiosity is pulled toward neural networks, representation, model behavior, and computational accounts of learning.',
+      },
+      {
+        time: '11:05',
+        label: 'BUILD',
+        message:
+          'Projects are the practical side of that interest: small tools, simulations, interface experiments, and public code.',
+      },
+      {
+        time: '13:20',
+        label: 'TRACK',
+        message:
+          'Quantum computing stays here as a real long-term direction, but not as a replacement for the AI core of the portfolio.',
+      },
+      {
+        time: '15:40',
+        label: 'MODE',
+        message:
+          'The honest posture is still early-stage: curious, technically ambitious, and explicit about building foundations first.',
       },
     ],
   },
@@ -59,15 +92,26 @@ export const site = {
       'I am still early in that path, so the priority is building real foundations rather than overstating expertise. What feels most honest is saying that I am drawn to neural networks, machine learning, model behavior, and the broader question of how minds and models learn.',
       'The portfolio is meant to read like a thoughtful student record of that direction: experimental, technically ambitious, and clear about what sits at the center. For me, that means AI first, cognition close behind it, and quantum computing as an important long-term interest.',
     ],
-    stats: [
-      { label: 'Center Of Gravity', value: 'AI · Cognition · Learning' },
-      { label: 'Current Questions', value: 'Perception · Language · Model behavior' },
-      { label: 'Long-Term Bet', value: 'Quantum computing' },
+  },
+
+  dashboard: {
+    statusTitle: 'Current focus',
+    statuses: [
+      { label: 'AI reading stack', value: 'Active', progress: 88 },
+      { label: 'Project experiments', value: 'In motion', progress: 76 },
+      { label: 'Research direction', value: 'Getting sharper', progress: 64 },
     ],
+    activeNode: {
+      label: 'Current project node',
+      title: 'Situate Vancouver',
+      description:
+        'A live contribution thread across React, MapLibre, Django, and FastAPI, with work around city intelligence, transit layers, and frontend interaction.',
+      action: { href: '#projects', label: 'Open Project Board' },
+    },
   },
 
   skillsSection: {
-    label: '02. INTERESTS',
+    label: '02. RESEARCH LANES',
     title: 'Areas I Am Exploring',
   },
 
@@ -97,6 +141,8 @@ export const site = {
   projectsSection: {
     label: '03. PROJECTS',
     title: 'Selected Projects & Current Work',
+    intro:
+      'A mix of active contributions and smaller computational experiments. The emphasis is less on polished product framing and more on what each project lets me learn.',
   },
 
   githubSection: {
@@ -114,14 +160,21 @@ export const site = {
   projects: [
     {
       id: 'situate-vancouver',
-      icon: '🗺️',
+      icon: '01',
+      category: 'Active contribution',
       title: 'Situate Vancouver',
       featured: true,
-      featuredLabel: '★ Active Now',
+      featuredLabel: 'Active now',
+      tone: 'sage',
       description:
-        'An active project I am contributing to right now: a map-first city intelligence workspace for Metro Vancouver built across React, MapLibre, Django, and FastAPI, with work spanning mobility lenses, transit layers, richer map interaction, and frontend engineering foundations.',
+        'A map-first city intelligence workspace for Metro Vancouver built across React, MapLibre, Django, and FastAPI, with work spanning mobility lenses, transit layers, richer map interaction, and frontend engineering foundations.',
       tech: ['React', 'MapLibre', 'Django', 'FastAPI'],
       links: [
+        {
+          href: 'https://situatevancouver.com',
+          label: 'Visit Website',
+          external: true,
+        },
         {
           href: 'https://github.com/Gabriel-Dalton/Situate-Vancouver',
           label: 'View Project',
@@ -131,8 +184,10 @@ export const site = {
     },
     {
       id: 'spatial-audio',
-      icon: '🎵',
+      icon: '02',
+      category: 'Perception experiment',
       title: 'Spatial Audio Engine',
+      tone: 'sand',
       description:
         'An interactive Web Audio experiment around spatial perception. It lets you position sources in 3D space, hear the scene shift in real time, and make a perceptual idea concrete in the browser.',
       tech: ['Web Audio API', 'JavaScript', 'Canvas'],
@@ -148,8 +203,10 @@ export const site = {
     },
     {
       id: 'quantum-algorithms',
-      icon: '⚛️',
+      icon: '03',
+      category: 'Long-term direction',
       title: 'Quantum Algorithms',
+      tone: 'linen',
       description:
         "Implementations of Grover's and Shor's algorithms in Qiskit, built as part of my long-term interest in quantum computing and computational models beyond classical systems.",
       tech: ['Python', 'Qiskit', 'Math'],
@@ -157,10 +214,12 @@ export const site = {
     },
     {
       id: 'derbyos-web',
-      icon: '🏇',
+      icon: '04',
+      category: 'Simulation study',
       title: 'DerbyOS Web',
+      tone: 'clay',
       description:
-        'A simulation-heavy web project built around Monte Carlo race modeling, stochastic logic, and interactive state design. It is less directly AI-focused, but it reflects how I like learning through computational experiments.',
+        'A simulation-heavy web project built around Monte Carlo race modeling, stochastic logic, and interactive state design. It reflects how I like learning by turning abstract systems into runnable experiments.',
       tech: ['Vanilla JS', 'HTML/CSS', 'Simulation'],
       links: [
         { href: 'https://h33t589.github.io/DerbyOS-web/', label: 'Launch App', external: true },
@@ -174,32 +233,41 @@ export const site = {
     },
     {
       id: 'rust-cli',
-      icon: '🔧',
+      icon: '05',
+      category: 'Tooling interest',
       title: 'Rust Tooling Experiments',
+      tone: 'ink',
       description:
-        'A small set of Rust command-line tools and performance experiments. Tooling work is no longer the center of this site, but it still captures part of how I learn by building.',
-      tech: ['Rust', 'Clap', 'Terminal'],
+        'A small set of Rust command-line tools and performance experiments. Tooling work is still part of how I learn, even if it is no longer the center of the portfolio framing.',
+      tech: ['Rust', 'Clap', 'CLI'],
       links: [{ href: 'https://github.com/H33T589', label: 'View Code', external: true }],
     },
   ],
 
   typewriterPhrases: [
-    'thinking about learning and representation',
-    'exploring perception through computation',
-    'building small AI and interface experiments',
-    'trying to make abstract questions concrete',
+    'thinking about how learning systems form representations',
+    'exploring perception, language, and model behavior',
+    'building small experiments to make abstract questions concrete',
+    'keeping quantum computing in view as a long-term bet',
   ],
 
   contact: {
     label: '05. CONTACT',
     title: 'Say Hello',
     description:
-      'If you want to reach out, I would keep it simple: email for direct contact, GitHub for code, and LinkedIn for the standard professional channel.',
+      'The contact section stays simple: email for direct contact, GitHub for code, and LinkedIn for the standard professional channel.',
     actions: [
       { href: 'mailto:hitkumarp589@gmail.com', label: 'Email Me' },
       { href: 'https://github.com/H33T589', label: 'GitHub', external: true },
       { href: 'https://www.linkedin.com/in/heet--patel', label: 'LinkedIn', external: true },
     ],
+    location: 'Based in British Columbia',
+  },
+
+  footer: {
+    note: 'Student portfolio focused on AI, cognition, and computational models of learning.',
+    status: 'Portfolio status: active',
+    version: 'Edition 2026.1',
   },
 
   social: {
