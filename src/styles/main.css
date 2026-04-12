@@ -115,57 +115,6 @@ body::before {
   opacity: 0.8;
 }
 
-.loader {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.9rem;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(111, 148, 113, 0.12), transparent 32%),
-    linear-gradient(180deg, #fbf7ef 0%, #efe5d7 100%);
-  transition: opacity 0.7s ease, visibility 0.7s ease;
-}
-
-.loader.loaded {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loader-text {
-  font-family: var(--font-mono);
-  font-size: clamp(1rem, 3vw, 1.25rem);
-  letter-spacing: 0.22em;
-  color: var(--ink);
-}
-
-.loader-bar-container {
-  width: min(280px, 72vw);
-  height: 4px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(30, 41, 54, 0.1);
-}
-
-.loader-bar {
-  width: 0%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent-soft), var(--signal));
-}
-
-.loader-status {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  color: var(--ink-muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 .nav {
   position: fixed;
   top: 0;

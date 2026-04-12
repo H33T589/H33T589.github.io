@@ -6,17 +6,6 @@ export const site = {
       'Student portfolio focused on AI, cognitive systems, computational models of learning, and quantum computing.',
   },
 
-  loader: {
-    title: 'HEET / SFU / AI',
-    initialStatus: 'Loading portfolio...',
-    messages: [
-      'Loading notes on learning...',
-      'Mapping cognition to computation...',
-      'Opening current experiments...',
-      'Ready.',
-    ],
-  },
-
   hero: {
     tag: 'SFU student exploring AI, cognitive systems, and computational models of learning',
     titleLine1: 'Trying to understand how',
@@ -83,13 +72,23 @@ export const site = {
       items: ['Perception', 'Attention', 'Memory', 'Language'],
     },
     {
-      category: 'Current Practice',
+      category: 'Programming Practice',
       icon: '03',
-      items: ['Python', 'JavaScript', 'Small AI Experiments', 'Data Visualization'],
+      items: ['Python', 'JavaScript', 'TypeScript', 'Rust', 'C++', 'Java'],
+    },
+    {
+      category: 'Web + Data Stack',
+      icon: '04',
+      items: ['React', 'Next.js', 'CSS', 'Django', 'FastAPI', 'PostgreSQL'],
+    },
+    {
+      category: 'Project Tooling',
+      icon: '05',
+      items: ['Git/GitHub', 'Prisma', 'Tailwind CSS', 'Shell', 'Docker', 'PHP / Laravel'],
     },
     {
       category: 'Long-Term Direction',
-      icon: '04',
+      icon: '06',
       items: ['Quantum Computing', 'Cognitive Modeling', 'Research Tools', 'Human-Centered AI'],
     },
   ],
@@ -120,7 +119,7 @@ export const site = {
       featuredLabel: '★ Active Now',
       description:
         'An active project I am contributing to right now: a map-first city intelligence workspace for Metro Vancouver built across React, MapLibre, Django, and FastAPI, with work spanning mobility lenses, transit layers, richer map interaction, and frontend engineering foundations.',
-      tech: ['React', 'MapLibre', 'Django', 'FastAPI'],
+      tech: ['React', 'TypeScript', 'MapLibre', 'Django', 'FastAPI', 'Docker'],
       links: [
         {
           href: 'https://github.com/Gabriel-Dalton/Situate-Vancouver',
@@ -147,6 +146,23 @@ export const site = {
       ],
     },
     {
+      id: 'stitch-n-stab',
+      icon: '🧵',
+      title: 'Stitch-n-Stab',
+      description:
+        'A small storefront and admin publishing workflow for handmade crochet pieces, built as a practical full-stack project with product pages, image handling, database-backed listings, and deployment notes.',
+      tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Tailwind CSS'],
+      links: [
+        { href: 'https://stitchnstab.com', label: 'Visit Website', external: true },
+        {
+          href: 'https://github.com/H33T589/stitch-n-stab',
+          label: 'View Source',
+          small: true,
+          external: true,
+        },
+      ],
+    },
+    {
       id: 'quantum-algorithms',
       icon: '⚛️',
       title: 'Quantum Algorithms',
@@ -161,7 +177,7 @@ export const site = {
       title: 'DerbyOS Web',
       description:
         'A simulation-heavy web project built around Monte Carlo race modeling, stochastic logic, and interactive state design. It is less directly AI-focused, but it reflects how I like learning through computational experiments.',
-      tech: ['Vanilla JS', 'HTML/CSS', 'Simulation'],
+      tech: ['JavaScript', 'HTML', 'CSS', 'Simulation'],
       links: [
         { href: 'https://h33t589.github.io/DerbyOS-web/', label: 'Launch App', external: true },
         {
@@ -178,7 +194,7 @@ export const site = {
       title: 'Rust Tooling Experiments',
       description:
         'A small set of Rust command-line tools and performance experiments. Tooling work is no longer the center of this site, but it still captures part of how I learn by building.',
-      tech: ['Rust', 'Clap', 'Terminal'],
+      tech: ['Rust', 'Shell', 'CLI'],
       links: [{ href: 'https://github.com/H33T589', label: 'View Code', external: true }],
     },
   ],

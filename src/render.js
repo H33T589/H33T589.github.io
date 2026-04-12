@@ -10,11 +10,6 @@ export function renderSite(site) {
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.setAttribute('content', site.meta.description);
 
-  const loaderText = document.querySelector('.loader-text');
-  if (loaderText && site.loader?.title) loaderText.textContent = site.loader.title;
-  const loaderStatus = document.getElementById('loaderStatus');
-  if (loaderStatus && site.loader?.initialStatus) loaderStatus.textContent = site.loader.initialStatus;
-
   const { hero } = site;
   const tagEl = document.getElementById('heroTag');
   if (tagEl) tagEl.textContent = hero.tag;
