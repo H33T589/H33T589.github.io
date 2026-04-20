@@ -19,6 +19,10 @@ export function renderSite(site) {
   if (grad) grad.textContent = hero.titleGradient;
   const desc = document.getElementById('heroDescription');
   if (desc) desc.textContent = hero.description;
+  const quote = document.getElementById('heroQuote');
+  if (quote) quote.textContent = hero.quote?.text || '';
+  const quoteAuthor = document.getElementById('heroQuoteAuthor');
+  if (quoteAuthor) quoteAuthor.textContent = hero.quote?.author ? `- ${hero.quote.author}` : '';
   const ctaP = document.getElementById('ctaProjects');
   if (ctaP) {
     ctaP.href = hero.ctaProjects.href;
@@ -75,18 +79,45 @@ export function renderSite(site) {
   const skillsGrid = document.getElementById('skillsGrid');
   if (skillsGrid) {
     skillsGrid.innerHTML = site.skills
-      .map(
-        (card) => `
+      .map((card, index) => {
+        const hasMore = Array.isArray(card.moreItems) && card.moreItems.length > 0;
+        return `
         <div class="skill-card reveal">
+          ${
+            hasMore
+              ? `<button class="skill-more-toggle" type="button" aria-expanded="false" aria-controls="skillMore${index}" data-skill-toggle>
+                  <span class="skill-more-icon" aria-hidden="true"></span>
+                  <span class="sr-only">${esc(card.moreLabel || 'Show more skills')}</span>
+                </button>`
+              : ''
+          }
           <div class="skill-category">
             <span>${card.icon}</span> ${esc(card.category)}
           </div>
           <div class="skill-list">
             ${card.items.map((item) => `<span class="skill-item">${esc(item)}</span>`).join('')}
           </div>
-        </div>`
-      )
+          ${
+            hasMore
+              ? `<div class="skill-list skill-list--more" id="skillMore${index}" hidden>
+                  ${card.moreItems.map((item) => `<span class="skill-item">${esc(item)}</span>`).join('')}
+                </div>`
+              : ''
+          }
+        </div>`;
+      })
       .join('');
+
+    skillsGrid.querySelectorAll('[data-skill-toggle]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('aria-controls');
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (!target) return;
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        target.hidden = expanded;
+      });
+    });
   }
 
   const projectsHeader = document.querySelector('#projects .section-header');
@@ -102,20 +133,28 @@ export function renderSite(site) {
         (p) => `
         <article class="project-card reveal${p.featured ? ' project-card--featured' : ''}" data-project-card>
           <div class="project-content">
-            ${p.featured ? `<span class="project-badge">${esc(p.featuredLabel || 'Featured')}</span>` : ''}
-            <div class="project-icon">${p.icon}</div>
-            <h3 class="project-title">${esc(p.title)}</h3>
-            <p class="project-desc">${esc(p.description)}</p>
-            <div class="project-tech">
-              ${p.tech.map((t) => `<span class="tech-pill">${esc(t)}</span>`).join('')}
+            <div class="project-heading">
+              <span class="project-icon">${esc(p.icon)}</span>
+              ${p.featured ? `<span class="project-badge">${esc(p.featuredLabel || 'Featured')}</span>` : ''}
             </div>
-            ${p.links
-              .map((link) => {
-                const small = link.small ? ' project-link--small' : '';
-                const target = link.external !== false ? ' target="_blank" rel="noopener noreferrer"' : '';
-                return `<a href="${esc(link.href)}" class="project-link${small}"${target}>${esc(link.label)} <span aria-hidden="true">&rarr;</span></a>`;
-              })
-              .join('')}
+            <div class="project-main">
+              <h3 class="project-title">${esc(p.title)}</h3>
+              <div class="project-meta">
+                <p class="project-desc">${esc(p.description)}</p>
+                <div class="project-tech">
+                  ${p.tech.map((t) => `<span class="tech-pill">${esc(t)}</span>`).join('')}
+                </div>
+                <div class="project-links">
+                  ${p.links
+                    .map((link) => {
+                      const small = link.small ? ' project-link--small' : '';
+                      const target = link.external !== false ? ' target="_blank" rel="noopener noreferrer"' : '';
+                      return `<a href="${esc(link.href)}" class="project-link${small}"${target}>${esc(link.label)} <span aria-hidden="true">&rarr;</span></a>`;
+                    })
+                    .join('')}
+                </div>
+              </div>
+            </div>
           </div>
         </article>`
       )
@@ -161,6 +200,8 @@ export function renderSite(site) {
   const socialEmail = document.getElementById('socialEmail');
   const socialGithub = document.getElementById('socialGithub');
   const socialLinkedin = document.getElementById('socialLinkedin');
+  const contactEmail = document.getElementById('contactEmail');
+  if (contactEmail) contactEmail.href = site.social.email;
   if (socialEmail) socialEmail.href = site.social.email;
   if (socialGithub) socialGithub.href = site.social.github;
   if (socialLinkedin) socialLinkedin.href = site.social.linkedin;

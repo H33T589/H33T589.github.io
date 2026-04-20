@@ -11,22 +11,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <canvas id="particles" aria-hidden="true"></canvas>
-
     <nav class="nav" id="nav">
       <div class="nav-container">
-        <a href="#hero" class="nav-logo">H33T<span class="nav-logo-dot">.</span></a>
+        <a href="#hero" class="nav-logo">Heet Patel</a>
         <div class="nav-links" id="navLinks">
-          <a href="#about" class="nav-link">About</a>
-          <a href="#skills" class="nav-link">Interests</a>
-          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#skills" class="nav-link">Focus</a>
+          <a href="#about" class="nav-link">Profile</a>
+          <a href="#projects" class="nav-link">Work</a>
           <a href="#contact" class="nav-link">Contact</a>
         </div>
         <button
@@ -48,21 +46,17 @@
 
     <main id="main">
       <section class="hero" id="hero">
-        <div class="hero-glow" aria-hidden="true"></div>
         <div class="hero-shell">
           <div class="hero-content">
             <span class="hero-tag" id="heroTag"></span>
-            <div class="typewriter-container">
-              <span id="typingText"></span><span class="cursor" aria-hidden="true">_</span>
-            </div>
             <h1 class="hero-title">
               <span id="heroTitleLine1"></span><br />
-              <span class="gradient-text" id="heroTitleGradient"></span>
+              <span id="heroTitleGradient"></span>
             </h1>
             <p class="hero-description" id="heroDescription"></p>
             <div class="btn-container">
-              <a href="#projects" class="btn btn-primary magnetic-btn" id="ctaProjects">View Projects</a>
-              <a href="#contact" class="btn btn-secondary magnetic-btn" id="ctaContact">Get in Touch</a>
+              <a href="#projects" class="btn btn-primary" id="ctaProjects">View Work</a>
+              <a href="#contact" class="btn btn-secondary" id="ctaContact">Contact</a>
             </div>
           </div>
 
@@ -76,29 +70,21 @@
                 <span class="photo-detail" id="heroPhoto0Detail"></span>
               </figcaption>
             </figure>
-
-            <div class="photo-stack">
-              <figure class="photo-card photo-card--secondary">
-                <div class="photo-frame photo-frame--tilted">
-                  <img class="photo-image" id="heroPhoto1" alt="" loading="lazy" />
-                </div>
-                <figcaption class="photo-meta">
-                  <span class="photo-caption" id="heroPhoto1Caption"></span>
-                  <span class="photo-detail" id="heroPhoto1Detail"></span>
-                </figcaption>
-              </figure>
-
-              <figure class="photo-card photo-card--accent">
-                <div class="photo-frame photo-frame--soft">
-                  <img class="photo-image" id="heroPhoto2" alt="" loading="lazy" />
-                </div>
-                <figcaption class="photo-meta">
-                  <span class="photo-caption" id="heroPhoto2Caption"></span>
-                  <span class="photo-detail" id="heroPhoto2Detail"></span>
-                </figcaption>
-              </figure>
-            </div>
+            <blockquote class="hero-quote">
+              <p id="heroQuote"></p>
+              <cite id="heroQuoteAuthor"></cite>
+            </blockquote>
           </div>
+        </div>
+      </section>
+
+      <section class="section-band section-band--low" id="skills">
+        <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label"></span>
+          <h2 class="section-title"></h2>
+        </div>
+        <div class="skills-grid" id="skillsGrid"></div>
         </div>
       </section>
 
@@ -107,27 +93,23 @@
           <div class="section-header reveal about-intro">
             <span class="section-label" id="aboutLabel"></span>
             <h2 class="section-title" id="aboutTitle"></h2>
+          </div>
+          <div class="about-copy">
             <p class="about-lead reveal" id="aboutLead"></p>
             <div class="about-body reveal" id="aboutBody"></div>
+            <div class="about-panel reveal" id="aboutStats"></div>
           </div>
-          <div class="about-panel reveal" id="aboutStats"></div>
         </div>
       </section>
 
-      <section class="container" id="skills">
-        <div class="section-header reveal">
-          <span class="section-label"></span>
-          <h2 class="section-title"></h2>
-        </div>
-        <div class="skills-grid" id="skillsGrid"></div>
-      </section>
-
-      <section class="container" id="projects">
+      <section class="section-band section-band--medium" id="projects">
+        <div class="container">
         <div class="section-header reveal">
           <span class="section-label"></span>
           <h2 class="section-title"></h2>
         </div>
         <div class="projects-grid" id="projectsGrid"></div>
+        </div>
       </section>
 
       <section class="container" id="github">
@@ -173,7 +155,8 @@
         </div>
       </section>
 
-      <section class="container" id="contact">
+      <section class="contact-section" id="contact">
+        <div class="container">
         <div class="section-header reveal">
           <span class="section-label"></span>
           <h2 class="section-title"></h2>
@@ -186,6 +169,7 @@
             <span>Email: <a href="mailto:hitkumarp589@gmail.com" id="contactEmail">hitkumarp589@gmail.com</a></span>
             <span>Based in British Columbia</span>
           </div>
+        </div>
         </div>
       </section>
     </main>
@@ -216,9 +200,8 @@
           </a>
         </div>
         <p class="copyright">
-          &copy; <span id="year"></span> Built with love by Heet.
+          &copy; <span id="year"></span> Heet Patel. Personal academic portfolio.
         </p>
-        <p class="footer-signature" aria-label="Signature">Hitkumar Patel</p>
       </div>
     </footer>
 
