@@ -103,7 +103,7 @@ a {
 }
 
 .nav.scrolled {
-  background: var(--surface);
+  background: rgba(232, 239, 233, 0.94);
   box-shadow: 0 14px 30px rgba(26, 28, 27, 0.05);
 }
 
@@ -151,6 +151,20 @@ a {
 .nav-link:hover,
 .nav-link:focus-visible {
   color: var(--primary-container);
+}
+
+.nav-link--button {
+  padding: 0.68rem 1rem;
+  border: 1px solid var(--outline);
+  border-radius: var(--radius);
+  background: var(--surface-low);
+  color: var(--primary-container);
+}
+
+.nav-link--button:hover,
+.nav-link--button:focus-visible {
+  background: var(--surface-high);
+  color: var(--primary);
 }
 
 .menu-toggle {
@@ -1107,13 +1121,17 @@ a {
     display: inline-flex;
   }
 
+  .nav.scrolled .menu-toggle {
+    background: rgba(232, 239, 233, 0.98);
+  }
+
   .nav-links {
     position: fixed;
     inset: 4.6rem 1rem auto 1rem;
     display: grid;
     gap: 0.5rem;
     padding: 1rem;
-    background: var(--surface-high);
+    background: rgba(232, 239, 233, 0.98);
     box-shadow: var(--shadow);
     border-radius: var(--radius);
     transform: translateY(-130%);
@@ -1131,6 +1149,12 @@ a {
   .nav-link {
     padding: 0.85rem;
     color: var(--primary-container);
+  }
+
+  .nav-link--button {
+    margin-top: 0.35rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .hero {

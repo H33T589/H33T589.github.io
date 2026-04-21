@@ -10,6 +10,12 @@ export function renderSite(site) {
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.setAttribute('content', site.meta.description);
 
+  const navResume = document.getElementById('navResume');
+  if (navResume && site.resume) {
+    navResume.href = site.resume.href;
+    navResume.textContent = site.resume.label;
+  }
+
   const { hero } = site;
   const tagEl = document.getElementById('heroTag');
   if (tagEl) tagEl.textContent = hero.tag;

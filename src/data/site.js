@@ -6,6 +6,11 @@ export const site = {
       'Professional portfolio for Heet Patel, an SFU student focused on artificial intelligence, quantum computing, cognitive systems, and computational models of learning.',
   },
 
+  resume: {
+    href: '/Docs/Heet_Patel_CV.pdf',
+    label: 'Resume',
+  },
+
   hero: {
     tag: 'SFU Student · AI & Cognitive Systems · Quantum Computing',
     titleLine1: 'AI, Quantum Computing,',
