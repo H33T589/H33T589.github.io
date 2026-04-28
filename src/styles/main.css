@@ -676,6 +676,31 @@ a {
   gap: 1.25rem;
 }
 
+.project-media {
+  margin: 0;
+}
+
+.project-media img,
+.project-media-placeholder {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(56, 75, 55, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(105, 125, 90, 0.1), rgba(238, 232, 218, 0.56)),
+    var(--surface);
+  object-fit: cover;
+}
+
+.project-media-placeholder {
+  place-items: center;
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .project-title {
   color: var(--primary);
   font-family: var(--font-display);
