@@ -146,8 +146,29 @@ export const site = {
       ],
     },
     {
-      id: 'spatial-audio',
+      id: 'quiet-lab',
       icon: '02',
+      title: 'quiet-lab',
+      featured: true,
+      featuredLabel: 'Ongoing Experiment',
+      media: {
+        src: '/Docs/Quiet-lab screenshot.png',
+        alt: 'quiet-lab local language model workspace screenshot.',
+      },
+      description:
+        'A personal lab for exploring local language models and lightweight AI tooling. Built around Ollama, it combines prompt presets, local session history, streamed chat, and read-only repository inspection tools into a small workspace for experimenting with model behavior, grounded answers, and codebase-aware assistance.',
+      tech: ['Ollama', 'Node.js', 'Local LLMs', 'Prompt Presets', 'Repository Tools'],
+      links: [
+        {
+          href: 'https://github.com/H33T589/quiet-lab',
+          label: 'View Source',
+          external: true,
+        },
+      ],
+    },
+    {
+      id: 'spatial-audio',
+      icon: '03',
       title: 'Spatial Audio Engine',
       description:
         'A Web Audio experiment around spatial perception. It makes a cognitive and perceptual idea concrete by letting audio sources move through a browser-based three-dimensional sound field.',
@@ -164,7 +185,7 @@ export const site = {
     },
     {
       id: 'stitch-n-stab',
-      icon: '03',
+      icon: '04',
       title: 'Stitch-n-Stab',
       description:
         'A full-stack storefront and admin publishing workflow with product pages, image handling, database-backed listings, and deployment notes.',
@@ -181,7 +202,7 @@ export const site = {
     },
     {
       id: 'quantum-algorithms',
-      icon: '04',
+      icon: '05',
       title: 'Quantum Algorithms',
       description:
         "Implementations and study notes around Grover's and Shor's algorithms in Qiskit, built as part of my long-term interest in quantum computing and computational models beyond classical systems.",
@@ -190,7 +211,7 @@ export const site = {
     },
     {
       id: 'derbyos-web',
-      icon: '05',
+      icon: '06',
       title: 'DerbyOS Web',
       description:
         'A simulation-heavy web project built around Monte Carlo race modeling, stochastic logic, and interactive state design.',
@@ -207,7 +228,7 @@ export const site = {
     },
     {
       id: 'rust-cli',
-      icon: '06',
+      icon: '07',
       title: 'Rust Tooling Experiments',
       description:
         'A small set of Rust command-line tools and performance experiments that support my broader interest in precise, reliable technical systems.',

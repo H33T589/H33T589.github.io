@@ -144,6 +144,19 @@ export function renderSite(site) {
               ${p.featured ? `<span class="project-badge">${esc(p.featuredLabel || 'Featured')}</span>` : ''}
             </div>
             <div class="project-main">
+              ${
+                p.media
+                  ? `<figure class="project-media">
+                      ${
+                        p.media.src
+                          ? `<img src="${esc(p.media.src)}" alt="${esc(p.media.alt || `${p.title} screenshot`)}" loading="lazy" />`
+                          : `<div class="project-media-placeholder" aria-label="${esc(p.media.label || 'Project screenshot placeholder')}">
+                              <span>${esc(p.media.label || 'Screenshot coming soon')}</span>
+                            </div>`
+                      }
+                    </figure>`
+                  : ''
+              }
               <h3 class="project-title">${esc(p.title)}</h3>
               <div class="project-meta">
                 <p class="project-desc">${esc(p.description)}</p>
