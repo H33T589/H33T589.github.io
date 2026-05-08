@@ -156,7 +156,7 @@ export const site = {
         alt: 'quiet-lab local language model workspace screenshot.',
       },
       description:
-        'A personal lab for exploring local language models and lightweight AI tooling. Built around Ollama, it combines prompt presets, local session history, streamed chat, and read-only repository inspection tools into a small workspace for experimenting with model behavior, grounded answers, and codebase-aware assistance.',
+        'I built Quiet Lab as a local-first AI workspace on top of Ollama for testing practical LLM workflows. I have added stronger project memory, safer attachable repository tooling, configurable tooling budgets, and better control over workspace context, along with more reliable streaming and session persistence so day-to-day experiments stay grounded and usable.',
       tech: ['Ollama', 'Node.js', 'Local LLMs', 'Prompt Presets', 'Repository Tools'],
       links: [
         {
